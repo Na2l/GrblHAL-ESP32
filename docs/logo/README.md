@@ -11,8 +11,8 @@ at the origin, on a dark tile with PCB traces — "3018-Pro cuts PCBs".
 | `icon-maskable-512.png` | PWA maskable icon (80 % safe zone) |
 | `apple-touch-180.png` → `icon-180.png` | iOS home screen |
 | `icon-48.png` / `icon-32.png` | favicon |
-| `banner-1720.png` / `banner-800.png` | README / docs banner |
-| `lockup.svg` | banner source (icon + "3018-PRO" wordmark) |
+| `logo-cnc-640.png` / `logo-cnc-320.png` | logo lockup for README/docs (icon + "CNC") |
+| `lockup-cnc.svg` | lockup source (icon + "CNC") |
 
 Brand colors: background `#0a0f17` / `#121b2b`, accent blue `#4f9cf9` →
 `#9fd4ff`, highlight `#ffffff`. Keep the bit and axes inside the central

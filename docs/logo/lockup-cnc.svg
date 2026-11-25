@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1720 460">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 800">
  <defs>
   <linearGradient id="tx" x1="0" y1="0" x2="1" y2="0">
-   <stop offset="0" stop-color="#eaf4ff"/><stop offset="1" stop-color="#9fc6ef"/>
+   <stop offset="0" stop-color="#eaf4ff"/><stop offset="0.6" stop-color="#bcdcff"/><stop offset="1" stop-color="#7db8f0"/>
   </linearGradient>
  </defs>
- <rect width="1720" height="460" rx="40" fill="#0a0f17"/>
- <g transform="translate(40,40) scale(0.37)">
+ <rect width="640" height="800" rx="48" fill="#0a0f17"/>
+ <g transform="translate(40,24) scale(0.547)">
  <defs>
   <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
     <stop offset="0" stop-color="#121b2b"/><stop offset="0.55" stop-color="#0c131e"/><stop offset="1" stop-color="#070b12"/>
@@ -61,10 +61,10 @@
   <path d="M512 606 L 260 752" stroke="url(#ax2)" stroke-width="72"/>
  </g>
  <!-- axis arrow caps -->
- <g fill="#9fd4ff">
+ <g fill="url(#ax)">
   <path d="M512 300 l 34 62 h -68 z"/>
  </g>
- <g fill="#6fb4f6">
+ <g fill="url(#ax2)">
   <path d="M790 764 l -70 20 30 -64 z"/>
   <path d="M234 764 l 70 20 -30 -64 z"/>
  </g>
@@ -87,8 +87,6 @@
   <circle cx="512" cy="132" r="5"/><circle cx="512" cy="892" r="5"/>
  </g>
 </g>
- <text x="470" y="205" font-family="DejaVu Sans, Arial, sans-serif" font-size="132" font-weight="bold" fill="url(#tx)" letter-spacing="2">3018-PRO</text>
- <text x="474" y="280" font-family="DejaVu Sans, Arial, sans-serif" font-size="40" fill="#6fb4f6" letter-spacing="3">grblHAL · DLC32 MAX · ESP32-S3</text>
- <line x1="474" y1="320" x2="1560" y2="320" stroke="#1e2b3c" stroke-width="3"/>
- <text x="474" y="368" font-family="DejaVu Sans, Arial, sans-serif" font-size="28" fill="#5b6b80" letter-spacing="4">PRECISION PCB MILLING · 4 AXIS</text>
+ <text x="320" y="712" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif"
+       font-size="132" font-weight="bold" fill="url(#tx)" letter-spacing="16">CNC</text>
 </svg>
