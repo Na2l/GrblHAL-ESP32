@@ -58,6 +58,31 @@ pio run -e dlc32-max
 - **A/B layout:** firmware wrote into the inactive slot always leaves the
   previous build as fallback; keep the other slot on a known-good image.
 
+### Install as a web app (installable UI / PWA)
+
+Chrome/Edge can install the UI as a standalone window ("app"), but a browser
+only allows this on a **secure context**. Two things are required:
+
+1. **HTTPS** (or localhost). The board currently serves plain HTTP, so install
+   is blocked with "this app cannot be installed".
+   - Long term: serve the UI over HTTPS (`esp_https_server`, port 443) with a
+     self-signed certificate that is trusted on the device.
+   - For testing on desktop, the flag workaround works in both Chromium
+     browsers:
+     - Chrome: `chrome://flags/#unsafely-treat-insecure-origin-as-secure`
+     - Edge: `edge://flags/#unsafely-treat-insecure-origin-as-secure`
+     add `http://<board-ip>`, enable, then relaunch the browser.
+     (Also available in Chrome for Android; not available on iOS Safari.)
+2. **Web app manifest + icons**: `name`, `short_name`, `start_url`,
+   `display: standalone`, `theme_color`, and 192x192 + 512x512 maskable icons
+   (plus a service worker for reliable install behaviour).
+
+On iOS Safari there is no PWA install prompt for HTTP origins; use
+"Add to Home Screen" (browser shortcut, opens in a tab).
+
+Without HTTPS the UI still works fully in a normal browser tab; only the
+standalone-app installation needs the secure context.
+
 ## Validation status
 
 - Calibrated: X/Y/Z steps/mm, max rates, travel, homing, limit switches,
