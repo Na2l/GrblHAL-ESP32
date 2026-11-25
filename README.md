@@ -1,3 +1,70 @@
+# DLC32 MAX / 3018-Pro branch
+
+This branch is **`3018-pro`** of [github.com/Na2l/GrblHAL-ESP32](https://github.com/Na2l/GrblHAL-ESP32),
+a fork of the upstream **ESP32 grblHAL driver**:
+
+- Upstream: https://github.com/grblHAL/ESP32
+- Base commit: `62cf39e` (upstream `master`)
+- This branch adds: built-in web UI, heightmap probing, A/B OTA, machine
+  setup/calibration wizards and the MKS DLC32 MAX 4-axis build.
+- Hardware: MKS DLC32 MAX V1.0/V1.2 (ESP32-S3, 8 MB flash),
+  machine: 3018-Pro with modified Z axis and lead screws.
+
+## What was added
+
+| Area | Files | Notes |
+|---|---|---|
+| Web UI (port 80) | `main/ui.c`, `main/ui.h`, `main/index.html`, `main/index_html.h` | Self-contained page (no CDN), JSON API, live status, jog/zero, files, console, settings, firmware page, setup + calibration wizards. Replaces the stock ESP3D page. |
+| Heightmap | `main/heightmap.c/.h`, `main/heightmap_plugin.c` | N×N probed grid (`M102` probe, `M103` report, `M104` clear), bilinear compensation, fail-closed checks. |
+| A/B OTA | `main/ota.c`, `main/ota.h` | Upload to inactive slot, image validation, health gate + rollback, boot-loop counter, `$RB`/`$RS`, BOOT-button rollback, per-slot status. |
+| Machine setup | `main/ui.c` API + UI | Steps/mm, rates, acceleration, travel, limit polarity, direction invert, homing config, limit/probe/steps tests, settings backup/restore. |
+| Build | `main/my_machine.h`, `platformio.ini`, `sdkconfig.dlc32_max`, `partitions_s3_8m_ota.csv`, `scripts/build_stamp.py` | `env:dlc32-max`, 8 MB A/B partition layout, real build stamp in the UI. |
+| Docs | `docs/` | design notes, bring-up log, screenshots (`docs/screens/` to be added after flow validation). |
+
+## Required submodule patches (not upstreamed yet)
+
+Two changes live inside submodules and are kept as patches until they land upstream:
+
+- `main/grbl` (`grblHAL/core`) — `N_AXIS 4` (X/Y/Z/A).
+- `main/networking` (`grblHAL/Plugin_networking`) — do not mount the SD card
+  from `ftpd_init()` (race with the startup mount can crash the board).
+
+Apply them after `git submodule update`:
+
+```sh
+python3 scripts/patch_submodules.py
+# or: git -C main/grbl apply ../../patches/grbl-naxis4.patch
+#     git -C main/networking apply ../../patches/networking-ftpd-sd-mount.patch
+```
+
+See `docs/LOCAL_PATCHES.md` for details.
+
+## Build, flash, update
+
+```sh
+git submodule update --init --recursive
+python3 scripts/patch_submodules.py
+pio run -e dlc32-max
+# app image: .pio/build/dlc32-max/dlc32-max.bin
+```
+
+- **OTA (recommended):** UI → Settings → Firmware, or
+  `curl -H "X-OTA-Password: <pw>" --data-binary @dlc32-max.bin http://<ip>:8080/ota`
+- **USB recovery:** `esptool.py --chip esp32s3 -p /dev/ttyUSB0 write_flash 0x10000 dlc32-max.bin`
+  (full recovery image at `0x0`).
+- **Credentials are not in this repo:** OTA password from
+  `main/ota_secret.h` (see `scripts/make_ota_secret.py`, `docs/SECRETS.md`);
+  WiFi via `$74/$75` or `tools/set_wifi.py`.
+- **A/B layout:** firmware wrote into the inactive slot always leaves the
+  previous build as fallback; keep the other slot on a known-good image.
+
+## Validation status
+
+- Calibrated: X/Y/Z steps/mm, max rates, travel, homing, limit switches,
+  hard limits.
+- Pending: wizard job flows (PCB/flatten/run), SD job streaming (P2),
+  heightmap import/export, final screenshot set in `docs/screens/`.
+
 ## ESP32 grblHAL driver
 
 __Important:__  
