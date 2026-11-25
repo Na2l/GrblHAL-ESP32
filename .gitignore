@@ -40,3 +40,6 @@ sdkconfig.generic_s3
 
 # local secrets
 main/ota_secret.h
+
+# generated assets (scripts/gen_assets.py)
+main/app_assets.h

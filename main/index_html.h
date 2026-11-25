@@ -8,7 +8,15 @@ R"HTML(<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<title>DLC32 MAX</title>
+<meta name="theme-color" content="#0a0f17">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CNC">
+<link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/icon-48.png">
+<link rel="apple-touch-icon" href="/app-180.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<title>CNC · 3018-PRO</title>
 <style>
 :root{--bg:#0f1419;--panel:#171f27;--panel2:#1e2933;--line:#2b3742;--txt:#e6edf3;--dim:#8b98a5;--acc:#4f9cf9;--ok:#3fb950;--warn:#d29922;--err:#f85149;--grn:#238636}
 *{box-sizing:border-box}
@@ -2035,6 +2043,7 @@ async function fwUpload() {
 { const r = parseRoute(); CURRENT_ROUTE = routeKey(r.name, r.from); showPage(r.name, r.from); }
 loadInfo();
 checkSetup();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => { /* needs HTTPS */ });
 </script>
 </body></html>
 )HTML";

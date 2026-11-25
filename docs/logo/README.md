@@ -17,3 +17,19 @@ at the origin, on a dark tile with PCB traces — "3018-Pro cuts PCBs".
 Brand colors: background `#0a0f17` / `#121b2b`, accent blue `#4f9cf9` →
 `#9fd4ff`, highlight `#ffffff`. Keep the bit and axes inside the central
 80 % for maskable crops.
+
+## How the board serves them
+
+`scripts/gen_assets.py` (PlatformIO pre-script) embeds the PNGs, the manifest
+and `sw.js` into `main/app_assets.h`. The UI server exposes:
+
+| URL | Content |
+|---|---|
+| `/icon-32.png`, `/icon-48.png` | favicon (icon only) |
+| `/app-180.png` | Apple touch icon (icon + CNC) |
+| `/app-192.png`, `/app-512.png` | PWA manifest icons (icon + CNC) |
+| `/app-maskable-512.png` | maskable icon |
+| `/manifest.webmanifest` | `application/manifest+json` |
+| `/sw.js` | service worker |
+
+Installation as an app additionally needs a **secure context (HTTPS)**.

@@ -43,6 +43,7 @@
 #include "heightmap.h"
 #include "ota.h"
 #include "ui.h"
+#include "app_assets.h"
 
 #include "index_html.h"
 
@@ -804,6 +805,34 @@ static esp_err_t ui_fw_rollback_handler (httpd_req_t *req)
 }
 #endif
 
+#define UI_ICON_HANDLER(fn, arr) \
+    static esp_err_t fn(httpd_req_t *req) { \
+        httpd_resp_set_type(req, "image/png"); \
+        httpd_resp_set_hdr(req, "Cache-Control", "max-age=604800"); \
+        return httpd_resp_send(req, (const char *)arr, sizeof(arr)); \
+    }
+
+static esp_err_t ui_manifest_handler(httpd_req_t *req)
+{
+    httpd_resp_set_type(req, "application/manifest+json");
+    httpd_resp_set_hdr(req, "Cache-Control", "max-age=86400");
+    return httpd_resp_send(req, app_manifest_json, HTTPD_RESP_USE_STRLEN);
+}
+
+static esp_err_t ui_sw_handler(httpd_req_t *req)
+{
+    httpd_resp_set_type(req, "application/javascript");
+    httpd_resp_set_hdr(req, "Cache-Control", "no-cache");
+    return httpd_resp_send(req, app_sw_js, HTTPD_RESP_USE_STRLEN);
+}
+
+UI_ICON_HANDLER(ui_icon32_handler, icon32_png)
+UI_ICON_HANDLER(ui_icon48_handler, icon48_png)
+UI_ICON_HANDLER(ui_app180_handler, app180_png)
+UI_ICON_HANDLER(ui_app192_handler, app192_png)
+UI_ICON_HANDLER(ui_app512_handler, app512_png)
+UI_ICON_HANDLER(ui_appmask512_handler, appmask512_png)
+
 // ---------------------------------------------------------------------------
 // Server start
 // ---------------------------------------------------------------------------
@@ -814,6 +843,14 @@ static void ui_start (void *arg)
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
     static const httpd_uri_t routes[] = {
         { .uri = "/",              .method = HTTP_GET,    .handler = ui_root_handler },
+        { .uri = "/manifest.webmanifest", .method = HTTP_GET, .handler = ui_manifest_handler },
+        { .uri = "/sw.js",         .method = HTTP_GET,    .handler = ui_sw_handler },
+        { .uri = "/icon-32.png",   .method = HTTP_GET,    .handler = ui_icon32_handler },
+        { .uri = "/icon-48.png",   .method = HTTP_GET,    .handler = ui_icon48_handler },
+        { .uri = "/app-180.png",   .method = HTTP_GET,    .handler = ui_app180_handler },
+        { .uri = "/app-192.png",   .method = HTTP_GET,    .handler = ui_app192_handler },
+        { .uri = "/app-512.png",   .method = HTTP_GET,    .handler = ui_app512_handler },
+        { .uri = "/app-maskable-512.png", .method = HTTP_GET, .handler = ui_appmask512_handler },
         { .uri = "/api/status",    .method = HTTP_GET,    .handler = ui_status_handler },
         { .uri = "/api/info",      .method = HTTP_GET,    .handler = ui_info_handler },
         { .uri = "/api/command",   .method = HTTP_POST,   .handler = ui_command_handler },
@@ -850,7 +887,7 @@ static void ui_start (void *arg)
     config.stack_size = 10240;
     config.task_priority = 5;
     config.core_id = 0;                     // keep core 1 free for grbl
-    config.max_uri_handlers = 40;
+    config.max_uri_handlers = 52;
     config.uri_match_fn = httpd_uri_match_wildcard;
 
     if(httpd_start(&ui_server, &config) != ESP_OK) {
