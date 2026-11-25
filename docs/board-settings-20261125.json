@@ -1,0 +1,54 @@
+{
+  "ok": true,
+  "axes": [
+    {
+      "letter": "X",
+      "steps": 796.79,
+      "rate": 800.0,
+      "accel": 360000.0,
+      "travel": -300.0,
+      "dir_inv": 1
+    },
+    {
+      "letter": "Y",
+      "steps": 798.45,
+      "rate": 800.0,
+      "accel": 360000.0,
+      "travel": -180.0,
+      "dir_inv": 1
+    },
+    {
+      "letter": "Z",
+      "steps": 641.03,
+      "rate": 800.0,
+      "accel": 720000.0,
+      "travel": -200.0,
+      "dir_inv": 1
+    },
+    {
+      "letter": "A",
+      "steps": 250.0,
+      "rate": 500.0,
+      "accel": 36000.0,
+      "travel": -200.0,
+      "dir_inv": 0
+    }
+  ],
+  "step_invert": 0,
+  "dir_invert": 7,
+  "limits": {
+    "invert": 15,
+    "hard": 1,
+    "soft": 0,
+    "homing": 1,
+    "pullup_disable": 0
+  },
+  "homingcfg": {
+    "dir": 0,
+    "pulloff": 2.0,
+    "debounce": 250,
+    "cycles": 1,
+    "feed": 100.0,
+    "seek": 2000.0
+  }
+}
