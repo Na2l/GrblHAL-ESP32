@@ -1,0 +1,87 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Nav design</title>
+<style>
+:root{--bg:#0f1419;--panel:#171f27;--panel2:#1e2933;--line:#2b3742;--txt:#e6edf3;--dim:#8b98a5;--acc:#4f9cf9;--ok:#3fb950;--warn:#d29922;--err:#f85149;--grn:#238636}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.45 -apple-system,Segoe UI,Roboto,sans-serif}
+.phone{max-width:430px;margin:0 auto 30px;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:var(--bg)}
+.status{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--panel);border-bottom:1px solid var(--line);font-size:11px}
+.pill{padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;background:rgba(63,185,80,.15);color:var(--ok);border:1px solid rgba(63,185,80,.4)}
+.pill.w{background:rgba(210,153,34,.15);color:var(--warn);border-color:rgba(210,153,34,.4)}
+.dro{margin-left:auto;display:flex;gap:8px;font-variant-numeric:tabular-nums;font-size:11px;color:var(--dim)}
+.dro b{color:var(--txt)}
+h1{font-size:15px;margin:0;padding:14px 14px 6px}
+.sub{color:var(--dim);font-size:11px;padding:0 14px 12px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 14px 16px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 14px;min-height:104px;display:flex;flex-direction:column;justify-content:space-between}
+.tile:hover{border-color:var(--acc)}
+.tile .ic{font-size:22px;line-height:1}
+.tile b{display:block;font-size:15px;margin-top:10px}
+.tile span{color:var(--dim);font-size:11px;display:block;margin-top:3px}
+.tile.wide{grid-column:span 2;flex-direction:row;align-items:center;justify-content:space-between;min-height:auto}
+.jobcard{grid-column:span 2;background:var(--panel);border:1px solid rgba(79,156,249,.5);border-radius:14px;padding:14px}
+.bar{height:7px;background:#22303c;border-radius:999px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;width:46%;background:var(--acc)}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+button{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:9px;padding:9px 12px;font-size:12px;font-weight:600}
+button.p{background:var(--acc);border-color:var(--acc);color:#05203f}button.ok{background:var(--grn);border-color:var(--grn)}button.d{background:#3d1417;border-color:#5c2026;color:#ff9a9a}
+.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 14px 12px}
+.actions button{padding:12px 4px;font-size:11px;border-radius:12px}
+.jogwrap{display:flex;gap:20px;padding:6px 14px 18px;align-items:center}
+.jogpad{display:grid;grid-template-columns:repeat(3,52px);grid-template-rows:repeat(3,52px);gap:7px}
+.jogpad button{padding:0;font-size:19px;border-radius:11px}.jogpad .c{font-size:10px;color:var(--dim)}
+.step{display:flex;gap:6px;margin:10px 14px}.step button{flex:1;padding:7px 0;font-size:11px}.step .on{background:var(--acc);color:#05203f;border-color:var(--acc)}
+.sp{display:flex;gap:8px;padding:0 14px 16px;align-items:center;font-size:12px;color:var(--dim)}
+.split{height:1px;background:var(--line);margin:14px 0}
+.label{color:var(--dim);font-size:10px;text-transform:uppercase;letter-spacing:.6px;padding:0 14px 8px}
+.nav{display:flex;gap:6px;padding:10px 14px;background:var(--panel);border-top:1px solid var(--line);font-size:10px;color:var(--dim);justify-content:space-around}
+.nav .on{color:var(--acc);font-weight:700}
+.cards{padding:0 14px 16px;display:flex;flex-direction:column;gap:10px}
+.wcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
+.wcard b{font-size:14px}.wcard span{color:var(--dim);font-size:11px;display:block;margin:4px 0 10px}
+</style></head><body>
+
+<!-- MAIN -->
+<div class="phone">
+ <div class="status"><span class="pill">IDLE</span><span class="pill w">Pn XYZAS</span><span class="dro"><b>X</b>12.500 <b>Y</b>-4.250 <b>Z</b>0.000</span></div>
+ <h1>CNC · DLC32 MAX</h1><div class="sub">192.168.1.100 · WiFi MyWiFi · v1.1f</div>
+ <div class="tiles">
+   <div class="tile"><div class="ic">✥</div><div><b>Move</b><span>Jog, home, zero</span></div></div>
+   <div class="tile"><div class="ic">✦</div><div><b>Wizards</b><span>PCB · Flatten · Simple</span></div></div>
+   <div class="tile"><div class="ic">▤</div><div><b>Files</b><span>SD projects &amp; upload</span></div></div>
+   <div class="tile"><div class="ic">▦</div><div><b>Heightmap</b><span>Probe surface, view map</span></div></div>
+   <div class="tile"><div class="ic">≡</div><div><b>Console</b><span>Terminal · logs</span></div></div>
+   <div class="tile"><div class="ic">⚙</div><div><b>Settings</b><span>Machine · WiFi · security</span></div></div>
+   <div class="tile wide"><div><b>Job monitor</b><span>No job running</span></div><div style="color:var(--dim);font-size:20px">›</div></div>
+   <div class="tile wide"><div><b>Firmware &amp; about</b><span>slot ota_0 · commit 62cf39e</span></div><div style="color:var(--dim);font-size:20px">›</div></div>
+ </div>
+ <div class="nav"><span class="on">Home</span><span>Move</span><span>Wizards</span><span>Files</span><span>More</span></div>
+</div>
+
+<!-- MOVE -->
+<div class="phone">
+ <div class="status"><span class="pill">IDLE</span><span class="dro"><b>X</b>12.500 <b>Y</b>-4.250 <b>Z</b>0.000 <b>A</b>0.000</span></div>
+ <h1>Move</h1><div class="sub">Manual control · position, jog, spindle</div>
+ <div class="actions"><button class="ok">Home</button><button>Zero XY</button><button>Zero Z</button><button class="d">Stop</button></div>
+ <div class="split"></div>
+ <div class="label">Jog · 1.00 mm step</div>
+ <div class="jogwrap">
+   <div class="jogpad"><div></div><button>↑</button><div></div><button>←</button><div class="c">1.0<br>mm</div><button>→</button><div></div><button>↓</button><div></div></div>
+   <div class="row" style="flex-direction:column"><button style="width:64px;height:46px">Z +</button><button style="width:64px;height:46px">Z −</button></div>
+ </div>
+ <div class="step"><button>0.1</button><button class="on">1.0</button><button>10</button><button>50</button></div>
+ <div class="sp"><span>Spindle</span><button>M3 ▶</button><button>M5 ■</button><input style="flex:1;background:#0b1016;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:8px" value="1000 rpm"></div>
+ <div class="sp"><span>Coolant</span><button>Flood</button><button>Mist</button><button>Off</button></div>
+ <div class="nav"><span>Home</span><span class="on">Move</span><span>Wizards</span><span>Files</span><span>More</span></div>
+</div>
+
+<!-- WIZARDS -->
+<div class="phone">
+ <div class="status"><span class="pill">IDLE</span><span class="dro"><b>Z</b>0.000</span></div>
+ <h1>Wizards</h1><div class="sub">Guided jobs — same flow as the old touchscreen</div>
+ <div class="cards">
+  <div class="wcard"><b>PCB job</b><span>top.nc · bottom.nc · drills.nc · profile.nc</span><button class="p">Start wizard</button></div>
+  <div class="wcard"><b>Flatten spoil board</b><span>Surface the bed with a raster pass</span><button>Start wizard</button></div>
+  <div class="wcard"><b>Simple job</b><span>Any .nc / .gcode file with optional heightmap</span><button>Start wizard</button></div>
+  <div class="wcard"><b>Resume last project</b><span>relay4 · heightmap saved · step 3 of 5</span><button>Continue</button></div>
+ </div>
+ <div class="nav"><span>Home</span><span>Move</span><span class="on">Wizards</span><span>Files</span><span>More</span></div>
+</div>
+</body></html>

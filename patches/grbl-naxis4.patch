@@ -1,0 +1,13 @@
+diff --git a/config.h b/config.h
+index 070b9c7..b1df4fc 100644
+--- a/config.h
++++ b/config.h
+@@ -46,7 +46,7 @@ specific needs, i.e. performance tuning or adjusting to non-typical machines.
+ If more than 3 axes are configured a compliant driver and board map file is needed.
+  */
+ #ifndef N_AXIS
+-#define N_AXIS 3 // Number of axes
++#define N_AXIS 4 // Number of axes (MKS DLC32 MAX: X, Y, Z + A)
+ #endif
+ 
+ /*! \def AXIS_REMAP_ABC2UVW

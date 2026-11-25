@@ -77,6 +77,10 @@ set(SRCS
  grbl/kinematics/polar.c
  grbl/kinematics/asymmetric_ganging.c
  littlefs_hal.c
+ heightmap.c
+ heightmap_plugin.c
+ ota.c
+ ui.c
  littlefs/lfs.c
  littlefs/lfs_util.c
  sdcard/fs_littlefs.c
@@ -281,7 +285,8 @@ list (APPEND SRCS ${OPENPNP_SOURCE})
 list (APPEND SRCS ${ETHERNET_SOURCE})
 list (APPEND SRCS ${WIFI_SOURCE})
 
-idf_component_register(SRCS "${SRCS}" INCLUDE_DIRS ".")
+idf_component_register(SRCS "${SRCS}" INCLUDE_DIRS "."
+                       PRIV_REQUIRES esp_http_server app_update bootloader_support spi_flash)
 
 target_compile_definitions("${COMPONENT_LIB}" PUBLIC GRBL_ESP32)
 target_compile_definitions("${COMPONENT_LIB}" PUBLIC LITTLEFS_ENABLE=1)

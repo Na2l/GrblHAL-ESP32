@@ -1,0 +1,12 @@
+# ESP32-S3, 8MB flash — A/B OTA layout for grblHAL (MKS DLC32 MAX)
+# One-time USB flash required to switch from the single-app table.
+#   ota_0/ota_1: 1.75 MB each (app is ~0.92 MB)
+#   grbl:       grblHAL settings, found by name (main/nvs.c)
+#   storage:    4.4 MB for WebUI assets / files
+nvs,      data, nvs,     0x9000,   0x4000
+otadata,  data, ota,     0xd000,   0x2000
+phy_init, data, phy,     0xf000,   0x1000
+ota_0,    app,  ota_0,   0x10000,  0x1C0000
+ota_1,    app,  ota_1,   0x1D0000, 0x1C0000
+grbl,     data, 0x99,    0x390000, 0x1000
+storage,  data, spiffs,  0x391000, 0x46F000

@@ -1,0 +1,2034 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<title>DLC32 MAX</title>
+<style>
+:root{--bg:#0f1419;--panel:#171f27;--panel2:#1e2933;--line:#2b3742;--txt:#e6edf3;--dim:#8b98a5;--acc:#4f9cf9;--ok:#3fb950;--warn:#d29922;--err:#f85149;--grn:#238636}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.45 -apple-system,Segoe UI,Roboto,sans-serif;padding-bottom:62px}
+header{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--line);padding:8px 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.brand{font-weight:700}.brand span{color:var(--acc)}
+.pill{padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid var(--line);background:var(--panel2)}
+.pill.ok{color:var(--ok);border-color:rgba(63,185,80,.4);background:rgba(63,185,80,.12)}
+.pill.warn{color:var(--warn);border-color:rgba(210,153,34,.4);background:rgba(210,153,34,.12)}
+#fwbuild{max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:560px){ #fwbuild{max-width:150px;font-size:9px} .jogpad{grid-template-columns:repeat(3,70px);grid-template-rows:repeat(3,70px)}
+ .page .zcol{grid-template-rows:repeat(3,70px)} }
+.pill.err{color:var(--err);border-color:rgba(248,81,73,.4);background:rgba(248,81,73,.12)}
+.dro{margin-left:auto;display:flex;gap:10px;font-variant-numeric:tabular-nums;font-size:12px}
+.dro b{color:var(--dim);font-weight:600;font-size:10px;display:block}.dro span{font-size:15px;font-weight:700}
+main{max-width:900px;margin:0 auto;padding:14px}
+.page{display:none}.page.on{display:block}
+h2{font-size:15px;margin:0 0 10px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;cursor:pointer;user-select:none}
+.tile:active{border-color:var(--acc)}
+.tile img{height:34px;image-rendering:pixelated}
+.tile .g{font-size:22px}
+.tile b{font-size:12px}.tile small{color:var(--dim);font-size:10px}
+.wide{grid-column:span 3;flex-direction:row;justify-content:space-between;text-align:left;padding:12px 14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:12px}
+.card h3{margin:0 0 8px;font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.6px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button,select,input[type=text],input[type=password]{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:9px;padding:9px 12px;font-size:13px;font-weight:600}
+button:active{border-color:var(--acc)}
+button.p{background:var(--acc);border-color:var(--acc);color:#05203f}
+button.ok{background:var(--grn);border-color:var(--grn)}
+button.d{background:#3d1417;border-color:#5c2026;color:#ff9a9a}
+button:disabled{opacity:.4}
+.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.actions button{padding:14px 4px;font-size:12px}
+.mover{display:flex;gap:22px;align-items:flex-start;justify-content:center;padding:6px 0 10px}
+.jogpad{display:grid;grid-template-columns:repeat(3,66px);grid-template-rows:repeat(3,66px);gap:7px}
+.jogpad button{padding:0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700;line-height:1}
+.jogpad button span{transform:translateY(-1px)}
+.spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes sp{to{transform:rotate(360deg)}}
+button[disabled]{opacity:.45;cursor:not-allowed}
+.ind{display:inline-flex;align-items:center;justify-content:center;min-width:54px;padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);font-weight:700;color:var(--dim)}
+.ind.on{color:#fff;background:var(--grn);border-color:var(--grn)}
+.mtable{width:100%;border-collapse:collapse;font-size:12px}
+.mtable th{font-size:9px;letter-spacing:.5px;text-transform:uppercase;color:var(--dim);text-align:left;padding:6px 6px 4px}
+.mtable td{padding:5px 6px;border-top:1px solid var(--line);font-variant-numeric:tabular-nums}
+.mtable td.n{color:var(--txt);font-weight:600}
+.iBtn{background:rgba(79,156,249,.12);border:1px solid rgba(79,156,249,.35);color:var(--acc);font-size:13px;font-weight:700;width:26px;height:26px;line-height:1;border-radius:50%;padding:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;vertical-align:-6px;margin-left:2px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:20;padding:18px}
+.modal.on{display:flex}
+.modal .sheet{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:640px;width:100%;padding:16px 18px;max-height:82vh;overflow:auto}
+.setup-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.setup-tile{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;text-align:center}
+.setup-tile:hover{border-color:var(--acc)}
+.setup-tile .ic{font-size:30px}
+.setup-tile b{font-size:12px}
+.setup-tile small{color:var(--dim);font-size:10px}
+.diagram{background:#0b1016;border:1px solid var(--line);border-radius:10px;padding:10px;margin:10px 0}
+.diagram svg{width:100%;height:auto;display:block}
+.wizsteps{display:flex;gap:6px;margin-bottom:10px;font-size:10px;color:var(--dim)}
+.wizsteps div{flex:1;padding:6px;border-radius:7px;background:var(--panel2);border:1px solid var(--line);text-align:center}
+.wizsteps div.on{border-color:var(--acc);color:var(--txt)}
+.wizsteps div.done{border-color:rgba(63,185,80,.5);color:var(--ok)}
+.modal h4{margin:0 0 8px;font-size:14px}
+.modal p{margin:0 0 9px;font-size:12.5px;color:#cbd5e1}
+.modal .close{margin-top:10px;width:100%}
+code{background:#0b1016;border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:11px}
+.minp{width:84px;padding:5px 7px;font-size:12px;font-variant-numeric:tabular-nums}
+.limrow{display:flex;gap:8px;align-items:center;margin:6px 0}
+.inv{background:#141c24;border:1px dashed var(--line);color:var(--dim);font-size:11px;padding:6px 10px;border-radius:8px}
+.inv.on{background:var(--acc);border-color:var(--acc);color:#05203f;border-style:solid;font-weight:700}
+#dirrow button.on,#homedir button.on{background:var(--acc);border-color:var(--acc);color:#05203f}
+.jogpad select{width:100%;height:100%;border-radius:12px;font-size:12px;text-align:center;border-style:dashed}
+.zcol{display:grid;grid-template-rows:repeat(3,66px);gap:7px;width:96px}
+.zcol button{padding:0;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.zcol select{border-style:dashed;padding:0 4px;font-size:12px;text-align:center;height:100%;width:100%}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;justify-content:space-around;background:var(--panel);border-top:1px solid var(--line);padding:8px 4px}
+.nav a{color:var(--dim);text-decoration:none;font-size:11px;text-align:center;flex:1;padding:3px 0}
+.nav a.on{color:var(--acc);font-weight:700}
+.nav a#navback{flex:0 0 64px;color:var(--dim)}
+.nav a#navback.disabled{opacity:.25}
+.back{background:none;border:none;color:var(--acc);font-size:13px;padding:0 6px 0 0}
+ul.files{list-style:none;margin:0;padding:0}
+ul.files li{display:flex;gap:8px;align-items:center;padding:8px 4px;border-bottom:1px solid var(--line);font-size:13px}
+ul.files li .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ul.files li .sz{color:var(--dim);font-size:11px}
+pre.term{background:#0b1016;border:1px solid var(--line);border-radius:10px;padding:10px;height:240px;overflow:auto;font:12px/1.35 ui-monospace,Menlo,monospace;color:#9fe3b0;white-space:pre-wrap;margin:0 0 8px}
+.matrix{display:grid;gap:4px}
+.matrix div{aspect-ratio:1;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#e8eef5}
+.legend{display:flex;justify-content:space-between;font-size:10px;color:var(--dim);margin-top:6px}
+canvas{width:100%;height:220px;display:block}
+.muted{color:var(--dim);font-size:12px}
+.tabs{display:flex;gap:6px;margin-bottom:10px}
+.tabs button{border-radius:999px;padding:7px 14px;font-size:12px}
+.tabs button.on{background:var(--acc);border-color:var(--acc);color:#05203f}
+.steps{display:flex;gap:5px;margin-bottom:10px;font-size:10px;color:var(--dim)}
+.steps div{flex:1;padding:6px;border-radius:7px;background:var(--panel2);border:1px solid var(--line);text-align:center}
+.steps div.on{border-color:var(--acc);color:var(--txt)}
+.steps div.done{border-color:rgba(63,185,80,.5);color:var(--ok);cursor:pointer}
+.wizfooter{display:flex;gap:8px;align-items:center;padding:10px 2px 2px;margin-top:12px}
+.wizfooter .spacer{flex:1}
+.wizfooter button{min-width:96px}
+.wizfooter button:disabled{opacity:.35}
+.folder{padding:9px 10px;border:1px solid var(--line);border-radius:9px;margin-bottom:6px;cursor:pointer;display:flex;gap:8px;align-items:center}
+.folder.sel{border-color:var(--acc);background:#13202d}
+.folder small{color:var(--dim);margin-left:auto}
+.wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.wicon{background:var(--panel);border:1px solid var(--line);border-radius:16px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer}
+.wicon img{width:52px;height:52px;image-rendering:pixelated}
+.wicon b{font-size:12px}
+.crumbs{display:none;background:var(--panel2);border-bottom:1px solid var(--line);padding:7px 12px;font-size:12px;color:var(--dim);align-items:center;gap:8px;position:sticky;top:49px;z-index:4}
+.crumbs.on{display:flex}
+.crumbs button{background:none;border:none;color:var(--acc);font-size:12px;padding:0;font-weight:600}
+.crumbs .sep{color:var(--line)}
+.crumbs .cur{color:var(--txt)}
+.crumbs button.lnk{color:var(--dim)}
+.crumbs button.lnk:hover{color:var(--acc)}
+</style></head><body>
+<header>
+ <div class="brand">CNC<span>·</span>DLC32</div>
+ <span class="pill" id="st">…</span>
+ <span class="pill" id="fwbuild" style="font-size:10px;font-weight:600" title="firmware build">built __BUILD__</span>
+ <span class="pill" id="pn" style="display:none"></span>
+ <div class="dro">
+  <div><b>X</b><span id="x">0.000</span></div>
+  <div><b>Y</b><span id="y">0.000</span></div>
+  <div><b>Z</b><span id="z">0.000</span></div>
+  <div><b>A</b><span id="a">0.000</span></div>
+ </div>
+</header>
+<main>
+ <!-- MAIN -->
+ <section class="page on" id="p-main">
+  <h3>CNC · DLC32 MAX</h3>
+  <div class="sub" id="verline">firmware …</div>
+  <div class="card" id="setupwarn" style="display:none;border-color:var(--warn);margin-bottom:10px">
+   <div class="small" id="setupwarntxt" style="color:#f0d47a"></div>
+   <div class="row" style="margin-top:8px"><button class="p" onclick="go('settings-machine')">Open Machine</button>
+    <button onclick="dismissSetup()">Dismiss</button></div>
+  </div>
+  <div class="grid">
+   <div class="tile" onclick="go('move')"><div class="g">✥</div><b>Move</b><small>jog · home · zero</small></div>
+   <div class="tile" onclick="go('wizards')"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABVklEQVR4nO2ZwRLDIAhEl0z//5ftpc4YaxAVA7TZqzazL7hiLOBIKaU0+9tD04ilHhBt5WU1u7xcgNTmZ2BIz864JIaJqOkxpZTKMdOKXJnsjbeWoWlFSp1MMYCtKhIRucjIiGrIXlVNNBLylea5Xa7NPfpXmSW+zoNk96mbYCmT7bcV6tWg314RznCvk3Nzb61I761fjUuaoKvOzuUkj5lmJL9piVFO3JzbKsLBaJyXTDJSGtc69G3btWrTM31jRFsqUpqW5END6g+XbqHaUq0I1yd2H9HVQKy/JVRAVm5DtLQM4gECWATxAgEsgHiCACZBvEEAEyAeIYBBEK8QgHJDtLz1e0kmWTc7idQqYn0H2wXxnItSLEgUCIA5xvcgvABkNSsSIdy1vkAiLadSJ5CoEEABEhkC+IBEhwCA4xcgAEFDjAABdECiQAAMSCQIwNnfCit6A88zyEydVwbtAAAAAElFTkSuQmCC"><b>Wizards</b><small>PCB · flat · simple</small></div>
+   <div class="tile" onclick="go('files')"><div class="g">▤</div><b>Files</b><small>SD projects</small></div>
+   <div class="tile" onclick="go('console')"><div class="g">≡</div><b>Console</b><small>terminal</small></div>
+   <div class="tile" onclick="go('settings')"><div class="g">⚙</div><b>Settings</b><small>machine · WiFi · OTA</small></div>
+   <div class="tile wide" onclick="go('job')"><div><b>Job</b><br><small id="jobline">no job running</small></div><div class="muted">›</div></div>
+  </div>
+ </section>
+
+ <!-- MOVE -->
+ <section class="page" id="p-move">
+  <h2>Move</h2>
+  <div class="actions">
+   <button class="ok" data-need-idle onclick="cmdLine('$H')">Home</button>
+   <button data-need-idle onclick="zero('xy')">Zero XY</button>
+   <button data-need-idle onclick="zero('z')">Zero Z</button>
+   <button class="d" onclick="rt('21')">Stop</button>
+  </div>
+  <div class="card" id="alarmbar" style="display:none;border-color:var(--err)">
+   <h3 style="color:var(--err)">ALARM</h3>
+   <div class="small" id="alarmtxt">A limit switch was triggered (or homing failed). Check the switch is not pressed, jog off it if possible, then unlock.</div>
+   <div class="row" style="margin-top:8px">
+    <button class="d" onclick="unlockAlarm()">Unlock ($X)</button>
+    <button onclick="go('settings-machine')">Limit switch test</button>
+   </div>
+  </div>
+
+  <div class="mover">
+   <div>
+    <div class="muted" style="text-align:center;margin-bottom:6px">XY</div>
+    <div class="jogpad">
+     <div></div><button data-jog="y:1"><span>↑</span></button><div></div>
+     <button data-jog="x:-1"><span>←</span></button>
+     <select id="xystep"><option>0.1</option><option selected>1</option><option>10</option><option>50</option></select>
+     <button data-jog="x:1"><span>→</span></button>
+     <div></div><button data-jog="y:-1"><span>↓</span></button><div></div>
+    </div>
+   </div>
+   <div>
+    <div class="muted" style="text-align:center;margin-bottom:6px">Z</div>
+    <div class="zcol">
+     <button data-jog="z:1">Z +</button>
+     <select id="zstep"><option>0.01</option><option>0.05</option><option selected>0.1</option><option>0.5</option><option>1</option></select>
+     <button data-jog="z:-1">Z −</button>
+    </div>
+   </div>
+  </div>
+  <div class="row" style="padding:0 0 10px">
+   <label class="small">XY feed (mm/min) <input type="text" id="xyfeed" value="800" style="width:90px"></label>
+   <label class="small">Z feed (mm/min) <input type="text" id="zfeed" value="300" style="width:90px"></label>
+   <span class="small">used for jogging · saved in this browser</span>
+  </div>
+
+  <div class="card"><h3>Spindle / coolant</h3>
+   <div class="row">
+    <button data-need-idle onclick="cmdLine('M3 S1000')">M3 1000</button>
+    <button onclick="cmdLine('M5')">M5</button>
+    <button data-need-idle onclick="cmdLine('M8')">Flood</button>
+    <button onclick="cmdLine('M9')">Off</button>
+   </div>
+  </div>
+ </section>
+
+ <!-- WIZARDS -->
+ <section class="page" id="p-wizards">
+  <h2>Wizards</h2>
+  <div class="wgrid">
+   <div class="wicon" onclick="go('wizard-pcb')"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABnElEQVR4nO1ZyxLDIAiUTv7/l9tLM0OQl6AJ7bi3JEZ2A4KS1jY26uGNYI2x5slyeUVfPI0DAEhk8D2J7HnfI3gJqFHumgrxjInyCXsEG+YInJ66CyljWABHnAqMjrkFnoU8Y4yFVGjNRNYTZYRkPTL8Fe5MkSNeGvIIrR2VcERfXC1m1POdkDLpkIGW7tnQgi/oy0/C2hId3GBpEq/BWV6UogMAoHvmfRk/4+5JiIqiHwTb5niEFzuFZ/uRnR/vAKi9TkilxU2hcStT2bP4fyFV0i6FxEstiCOpdLVwixdwg61iSCfRRGTSrzTXlPTLEauQ6dIFcRWkgsjxao1Z7HhAhS99wuLFhlYlARi7IP4S1DpSLcTcByuupbmWmh8WN3X3O6NxloGUcjlO3Rqh/VxAWENXh9fuRUi1czo+2rZ2jZCfPVhZvEqm30hE/E3LNI0ZvwxmZMcyofXob4Uq2a21xK837QQnjbF6XxmvpEPLMq71kb1Haw9SQjQRo6SyayTVMrWaDjQbzRROEfZI144xmhLa80pJY2OD4AO1dagFXSrwuwAAAABJRU5ErkJggg=="><b>PCB</b></div>
+   <div class="wicon" onclick="go('wizard-flat')"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAACPElEQVR4nNVaSW4DMQyTB/n/l6eXGlUF2aS2AuUt4000ZYuZRGQY7zem11lTE3vBr7XG1nsmJt0k1jfs8wmMEBH52X1NSn/uRjuRW0r9u9RCuz+hSisRHaBNqY0pVdqIeIFPppJFqyLMgd5t3enVQiRaMyaU+nRNFFEDwfZjiJcVqajhjdXPIrWn9bBH1PDI3jYFkSkRidaJW/D21ovefmki1k/ZAJh08GxM9oyVFDnluw2QUQ4pgFRJEWFS52QavTERFU990ooweXvrEzlHt/4bYSLoyoyALYxIVZGkIpkcRkCbgepPiEjFH3nO2IKpLacNCytiJ3rf90VqVBVsrSN/8SaksiZlGlFanFTpIM8qRyuyHOiFmLzvVNXOBYlEqvIt0EhN0QaUNZKUIreqzAQaWYOtU7a/S+RV8CbKGrtb+14vkrq67YMW346Uuc+Re2XaNTE0Tlf8X7cWk0JTBzaamta2PPpDJC2y6cW6Yq/Nprpuf+wgL43sYCZvT/DmYYA24LGdvSC9wWzA3ThtgHtreeqcAs/WjihO7mHjWEeY3e8M9AZEQgQUxMwl0AldW1BfWNkjXur27BQk2gRW9ZBFYRbWsBeGrRvo3EVSN+x+bYAIiLydM0NCpPANkSmIywDNnSUhUnz5wFb6GxgPx6D8XityCdyeozaE8ivTrlpSnaflZ4XMJaD7d2xG2+8jiMzp+0WXoiM/hqL2bhIiMvOnGhtoxu5HMWb6ordZFePu1Z6N6fVGMeWONb4AbTx4g5qzxa0AAAAASUVORK5CYII="><b>Flatten</b></div>
+   <div class="wicon" onclick="go('wizard-simple')"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAA7klEQVR4nO2Yyw7DIAwETZX//2V6CWoUhVDiNWzpzqmHFHkwj03MhBB/QSo/cs55ZiFeXma/L2G2iyxD3kGMM2uMZToiETYkwoZE2JDImW8uMtTFe8XWW8wIntSxzNKCoqwFQCJsUIl49hhc5Gkx5X8ppdR69gqoSClixn1EsbS83TALEPEU4yGsI73LyzsBISI9RbHku1taaReZhqdtdsQGPzJEpDbryIMh/IS5WzpIkfCO1IqddUxDiHzVHUqkBEVEQSARNiTChkTY2NqPfOi5B6KifG1cmhcrL2EiUVnKPUGInBT5bbirI8yJ9Q0Z3Zf1bBsRFgAAAABJRU5ErkJggg=="><b>Simple job</b></div>
+   <div class="wicon" onclick="go('heightmap')"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAA40lEQVR4nO2aQQ6DMAwE6/7/z+aGIgQkIbtosXZubcF4cKI4lPgRycxsP0dEsK71ZwU+Slx9h4IicpcwSwYuMpIoQ4Y2tN7GImpYRA2LqGERNSyihkXUsIgawdy1vUmdiqADjlYY/SDCFWlZnWeI6pSpiEXUsIgaFlEDIrKyDqBWeFhFniSEbFOgQ2smMfleayRB5j9XxnwZ5raaMul6CTMme5mVHcqxEtnQO3YVWIlH33JgvQ0BHauzd9ktylm81QBtFc6Su/u9d+4MUJE9aCepJ+f0KPNcq8xkp7XTV1KsFn4DxbpwQ8Q3W8kAAAAASUVORK5CYII="><b>Heightmap</b></div>
+   <div class="wicon" onclick="go('files')"><div style="font-size:36px">↺</div><b>Resume</b></div>
+  </div>
+  <p class="muted">Wizard step flows (project → setup → flatten → heightmap → run) arrive with job streaming (P2).</p>
+ </section>
+
+ <!-- PCB WIZARD -->
+ <section class="page" id="p-wizard-pcb">
+  <h2>PCB job</h2>
+  <div class="steps" id="wizsteps"></div>
+  <div id="wizbody"></div>
+  <div class="wizfooter">
+   <button class="d" onclick="wizCancel()">Cancel</button>
+   <span class="spacer"></span>
+   <button id="wizskip" onclick="wizSkip()">Skip</button>
+   <button id="wizback" onclick="wizBack()">‹ Back</button>
+   <button id="wiznext" class="p" onclick="wizNext()">Continue →</button>
+  </div>
+ </section>
+
+ <!-- HEIGHTMAP -->
+ <section class="page" id="p-heightmap">
+  <h2>Heightmap</h2>
+  <div class="row" style="margin-bottom:10px">
+   <button class="ok" id="hmprobe" onclick="hmAction('probe')">Probe</button>
+   <button onclick="hmAction('clear')">Clear</button>
+   <button onclick="hmLoad()">Refresh</button>
+   <span class="muted" id="hmstate">…</span>
+  </div>
+  <div class="tabs"><button class="on" id="tab3d" onclick="hmView('3d')">3D</button><button id="tab2d" onclick="hmView('2d')">Matrix</button></div>
+  <div class="card" id="hm3dwrap"><canvas id="hm3d" width="600" height="260"></canvas>
+   <div class="legend"><span>low</span><span>0</span><span>high</span></div></div>
+  <div class="card" id="hm2dwrap" style="display:none"><div class="matrix" id="hmmatrix"></div>
+   <div class="legend"><span>low</span><span>0</span><span>high</span></div></div>
+  <p class="muted">Values relative to work Z0. Import/export of maps is P2.</p>
+ </section>
+
+ <!-- FILES -->
+ <section class="page" id="p-files">
+  <h2>Files <span class="muted" id="fpath">/</span></h2>
+  <div class="row" style="margin-bottom:10px">
+   <button onclick="filesLoad()">Refresh</button>
+   <button onclick="sdMount()">Mount SD</button>
+   <input type="file" id="fup">
+   <button class="p" onclick="uploadFile()">Upload</button>
+  </div>
+  <div class="card"><ul class="files" id="flist"><li class="muted">loading…</li></ul></div>
+ </section>
+
+ <!-- MACHINE (Settings) -->
+ <section class="page" id="p-settings-machine">
+  <h2>Machine</h2>
+  <div class="card"><h3>Parameters <button class="iBtn" onclick="showHelp('params')" title="What do these mean?">ⓘ</button></h3>
+   <div id="mtables" class="small">loading…</div>
+   <div class="row" style="margin-top:10px;align-items:center">
+    <button class="p" id="msave" onclick="machineSave()">Save changes</button>
+    <span class="small" id="mstatus">read from the controller · changes only apply while Idle</span>
+   </div>
+   <div class="small" style="margin-top:8px">Direction invert is a bitmask shared by all axes: <code>$3</code> (use the console). <button class="iBtn" onclick="showHelp('params')">ⓘ</button></div></div>
+
+  <div class="card"><h3>Direction invert <button class="iBtn" onclick="showHelp('dirs')">ⓘ</button></h3>
+   <div class="small">Toggle any axis that moves the wrong way, then Save $3. Test each axis with a 1 mm jog afterwards.</div>
+   <div class="row" style="margin-top:8px" id="dirrow">
+    <button data-dir="0">X</button><button data-dir="1">Y</button><button data-dir="2">Z</button><button data-dir="3">A</button>
+   </div>
+   <div class="row" style="margin-top:8px"><button class="p" onclick="dirSave()">Save $3</button>
+    <span class="small" id="dirstatus">mask: <b id="dirmask">0</b></span></div>
+   <div class="small" style="margin-top:10px">Test the direction (slow +1 mm jog):</div>
+   <div class="row" style="margin-top:6px">
+    <button data-need-idle data-test="x">Test X +1 mm</button>
+    <button data-need-idle data-test="y">Test Y +1 mm</button>
+    <button data-need-idle data-test="z">Test Z +1 mm</button>
+    <button data-need-idle data-test="a">Test A +1 mm</button>
+   </div>
+   <div class="small" id="dirtest" style="margin-top:6px"></div></div>
+
+  <div id="slot-limits"></div>
+  <div id="slot-probe"></div>
+  <div id="slot-homing"></div>
+
+  <div class="card"><h3>Steps / backlash test <button class="iBtn" onclick="showHelp('calib')">ⓘ</button></h3>
+   <div class="small">Moves the axis +D then −D and reports the <b>commanded</b> (DRO) positions. Important: the controller counts steps (open loop), so the DRO always returns to the start — the real accuracy must be <b>measured with a caliper / dial indicator</b>.<br>
+    • <b>Steps/mm</b>: measure how far the axis really travelled (+D) → if it differs from D, correct steps/mm.<br>
+    • <b>Backlash</b>: after the return move, measure the remaining gap at the reference point → that gap is backlash.</div>
+   <div class="row" style="margin-top:10px;align-items:flex-end">
+    <label class="small">Axis<br><select id="calaxis"><option value="x">X</option><option value="y">Y</option><option value="z">Z</option><option value="a">A</option></select></label>
+    <label class="small">Distance (mm)<br><input type="text" id="caldist" value="100" style="width:90px"></label>
+    <label class="small">Feed (mm/min)<br><input type="text" id="calfeed" value="500" style="width:90px"></label>
+    <button class="p" id="calstart" onclick="calStart()">Run test</button>
+   </div>
+   <div class="small" id="calstatus" style="margin-top:10px">idle</div>
+   <div class="row" style="margin-top:10px;align-items:flex-end">
+    <label class="small">Measured travel +D (mm)<br><input type="text" id="calmeasured" placeholder="e.g. 99.6" style="width:120px"></label>
+    <button onclick="calApply()">Compute steps/mm</button>
+   </div>
+   <div class="row" style="margin-top:10px;align-items:flex-end">
+    <label class="small">Measured gap after return (mm)<br><input type="text" id="calbacklash" placeholder="e.g. 0.08" style="width:140px"></label>
+    <button onclick="calBacklash()">Compute backlash</button>
+   </div>
+   <div class="small" id="calresult" style="margin-top:8px"></div></div>
+
+  <div class="modal" id="helpmodal" onclick="if(event.target===this)closeHelp()">
+   <div class="sheet"><h4 id="helptitle"></h4><div id="helpbody"></div>
+    <button class="close" onclick="closeHelp()">Close</button></div></div>
+ </section>
+
+ <!-- MACHINE SETUP WIZARD -->
+ <section class="page" id="p-machine-setup">
+  <h2>First-time setup</h2>
+  <div class="wizsteps" id="setupsteps"></div>
+  <div id="setupbody"></div>
+  <div class="wizfooter">
+   <button class="d" onclick="setupWCancel()">Cancel</button><span class="spacer"></span>
+   <button id="setupwskip" onclick="setupWSkip()">Skip</button>
+   <button id="setupwback" onclick="setupWBack()">‹ Back</button>
+   <button id="setupwnext" class="p" onclick="setupWNext()">Next →</button>
+  </div>
+ </section>
+
+ <!-- CALIBRATION WIZARD -->
+ <section class="page" id="p-calibration">
+  <h2>Calibration wizard</h2>
+  <div class="wizsteps" id="calsteps"></div>
+  <div id="calbody"></div>
+  <div class="wizfooter">
+   <button class="d" onclick="calCancel()">Cancel</button><span class="spacer"></span>
+   <button id="calback" onclick="calBack()">‹ Back</button>
+   <button id="calnext" class="p" onclick="calNext()">Next →</button>
+  </div>
+ </section>
+
+ <!-- VIEW SETTINGS -->
+ <section class="page" id="p-settings-view">
+  <h2>All settings</h2>
+  <div class="card"><div id="allsettings" class="small">loading…</div>
+   <div class="row" style="margin-top:10px"><button onclick="dumpAllSettings()">Dump $$ to console</button>
+    <button onclick="go('settings-machine')">Back to Machine</button></div></div>
+ </section>
+
+ <!-- CONSOLE -->
+ <section class="page" id="p-console">
+  <h2>Console</h2>
+  <pre class="term" id="term"></pre>
+  <div class="row"><input type="text" id="cmd" placeholder="$ command or G-code" style="flex:1" onkeydown="if(event.key==='Enter')sendCmd()"><button class="p" onclick="sendCmd()">Send</button></div>
+  <div class="row" style="margin-top:8px"><button onclick="rt('21')">Hold</button><button onclick="rt('7e')">Resume</button><button onclick="rt('18')">Reset</button><button onclick="cmdLine('$X')">Unlock</button></div>
+ </section>
+
+ <!-- SETTINGS -->
+ <section class="page" id="p-settings">
+  <h2>Settings</h2>
+  <div class="setup-grid">
+   <div class="setup-tile" onclick="go('machine-setup')"><div class="ic">🛠</div><b>First-time setup</b><small>limits · probe · homing</small></div>
+   <div class="setup-tile" onclick="go('machine-menu')"><div class="ic">⚙</div><b>Change settings</b><small>steps · rates · travel</small></div>
+   <div class="setup-tile" onclick="go('settings-view')"><div class="ic">▤</div><b>View settings</b><small>all current values</small></div>
+   <div class="setup-tile" onclick="go('firmware')"><div class="ic">⤴</div><b>Firmware &amp; About</b><small>update · rollback · version</small></div>
+   <div class="setup-tile" onclick="go('calibration')"><div class="ic">📏</div><b>Calibration</b><small>guided wizard</small></div>
+   <div class="setup-tile" onclick="go('console')"><div class="ic">⌨</div><b>Diagnostics</b><small>console · logs</small></div>
+  </div>
+  <div class="card" style="margin-top:12px"><h3>Backup</h3>
+   <div class="row"><button class="p" onclick="backupSetup()">Backup setup</button>
+    <button onclick="document.getElementById('restorefile').click()">Restore setup</button>
+    <input type="file" id="restorefile" accept=".json" style="display:none" onchange="restoreSetup(this)"></div>
+  </div>
+ </section>
+
+ <!-- JOB -->
+ <section class="page" id="p-job">
+  <h2>Job</h2>
+  <div class="card"><h3>Current job</h3>
+   <div class="small" id="jobinfo">No job running — job streaming (P2) is not implemented yet.</div>
+   <div class="row" style="margin-top:10px">
+    <button data-need-idle onclick="rt('7e')">Resume</button>
+    <button onclick="rt('21')">Pause (hold)</button>
+    <button class="d" onclick="rt('18')">Stop / abort</button>
+   </div>
+  </div>
+  <div class="card"><h3>Progress</h3>
+   <div class="small">File · progress % · elapsed/remaining · phase list will appear here once the SD streamer exists.</div>
+   <div class="row" style="margin-top:10px"><button onclick="go('files')">Browse files</button><button onclick="go('console')">Open console</button></div>
+  </div>
+ </section>
+
+ <!-- MACHINE MENU (grid of machine setup topics) -->
+ <section class="page" id="p-machine-menu">
+  <h2>Machine setup</h2>
+  <div class="small" style="margin-bottom:10px">Pick an area — each opens an explanation with a diagram and a link to the full settings page.</div>
+  <div class="setup-grid">
+   <div class="setup-tile" onclick="setupShow('limits')"><div class="ic">⏹</div><b>Limit switches</b><small>wiring · $5 · test</small></div>
+   <div class="setup-tile" onclick="setupShow('probe')"><div class="ic">◎</div><b>Probe</b><small>touch plate · $6</small></div>
+   <div class="setup-tile" onclick="setupShow('homing')"><div class="ic">⌂</div><b>Homing</b><small>Z first · $23/$27</small></div>
+   <div class="setup-tile" onclick="setupShow('steps')"><div class="ic">📏</div><b>Steps / mm</b><small>distance calibration</small></div>
+   <div class="setup-tile" onclick="setupShow('travel')"><div class="ic">↔</div><b>Travel &amp; limits</b><small>soft limits</small></div>
+   <div class="setup-tile" onclick="setupShow('spindle')"><div class="ic">✳</div><b>Spindle / coolant</b><small>M3 · M5 · M8</small></div>
+   <div class="setup-tile" onclick="go('settings-machine')"><div class="ic">⚙</div><b>All parameters</b><small>steps · rates · accel</small></div>
+   <div class="setup-tile" onclick="go('settings-view')"><div class="ic">▤</div><b>View settings</b><small>current values</small></div>
+  </div>
+ </section>
+
+ <!-- FIRMWARE & ABOUT -->
+ <section class="page" id="p-firmware">
+  <h2>Firmware &amp; About</h2>
+  <div class="card"><h3>Firmware</h3><div id="fwinfo" class="muted">loading…</div>
+   <div class="row" style="margin-top:10px"><input type="file" id="fwbin"><input type="password" id="fwpw" placeholder="OTA password"><button class="p" onclick="fwUpload()">Upload firmware</button></div>
+   <div class="row" style="margin-top:8px"><button onclick="fwRollback()">Rollback firmware</button><span class="muted">or hold BOOT 3 s</span></div>
+  </div>
+  <div class="card"><h3>About</h3><div id="about" class="small">loading…</div></div>
+ </section>
+
+<template id="tpl-limits"><div class="card"><h3>Limit switches <button class="iBtn" onclick="showHelp('limits')">ⓘ</button></h3>
+   <div class="small">Per axis: <b>Live</b> = switch state right now · <b>Seen</b> = latched (a quick tap can't be missed) · <b>Invert</b> = the $5 polarity toggle (this is NOT the live state).</div>
+   <div style="margin-top:10px">
+    <div class="limrow"><b style="width:18px">X</b><span class="ind" id="limx">live</span><span class="ind" id="limsx">seen</span><button class="inv" data-pol="0">invert</button></div>
+    <div class="limrow"><b style="width:18px">Y</b><span class="ind" id="limy">live</span><span class="ind" id="limsy">seen</span><button class="inv" data-pol="1">invert</button></div>
+    <div class="limrow"><b style="width:18px">Z</b><span class="ind" id="limz">live</span><span class="ind" id="limsz">seen</span><button class="inv" data-pol="2">invert</button></div>
+    <div class="limrow"><b style="width:18px">A</b><span class="ind" id="lima">live</span><span class="ind" id="limsa">seen</span><button class="inv" data-pol="3">invert</button></div>
+   </div>
+   <div class="small" style="margin-top:8px">Live: <b id="limtxt">none</b> · inputs seen since clear: <b id="limmask">0</b> · $5 mask: <b id="polmask">?</b></div>
+   <div class="row" style="margin-top:10px">
+    <button onclick="polPreset(true)">All NC → invert ON</button>
+    <button onclick="polPreset(false)">All NO → invert OFF</button>
+    <button class="p" onclick="polSave()">Save $5</button>
+    <button onclick="clearLimits()">Clear seen</button>
+    <button onclick="rawMonitor()">Monitor raw inputs (15 s)</button>
+   </div>
+   <div class="small" id="polstatus" style="margin-top:6px"></div>
+   <pre id="rawlog" style="display:none;background:#0b1016;border:1px solid var(--line);border-radius:8px;padding:8px;height:120px;overflow:auto;font:11px/1.35 ui-monospace,Menlo,monospace;color:#9fe3b0;margin:8px 0 0"></pre>
+
+   <div class="split" style="margin:12px 0"></div>
+   <div class="small" style="margin-bottom:6px;color:var(--txt)"><b>Motion safety flags</b></div>
+   <div class="row">
+    <label class="small"><input type="checkbox" id="chk21"> Hard limits ($21) <button class="iBtn" onclick="showHelp('hard')">ⓘ</button></label>
+    <label class="small"><input type="checkbox" id="chk20"> Soft limits ($20) <button class="iBtn" onclick="showHelp('soft')">ⓘ</button></label>
+    <label class="small"><input type="checkbox" id="chk22"> Homing ($22) <button class="iBtn" onclick="showHelp('homing')">ⓘ</button></label>
+    <button onclick="limitFlagsSave()">Save flags</button>
+   </div>
+   <div class="small" style="margin-top:6px" id="flagstatus"></div></div>
+</template>
+<template id="tpl-probe">  <div class="card"><h3>Probe <button class="iBtn" onclick="showHelp('probe')">ⓘ</button></h3>
+   <div class="small">Touch the probe tip to the workpiece/GND — the indicator must light up.</div>
+   <div class="row" style="margin-top:10px"><span class="ind" id="probeind">Probe</span></div>
+   <div class="small" style="margin-top:8px"><span id="probetxt">not triggered</span> · invert with <code>$6</code></div></div>
+</template>
+<template id="tpl-homing"><div class="card"><h3>Homing config <button class="iBtn" onclick="showHelp('homingcfg')">ⓘ</button></h3>
+   <div class="small">Homing drives each axis toward its switch. Toggle the axes that must home in the <b>positive</b> direction ($23). Make sure <b>no switch is pressed</b> before starting $H.</div>
+   <div class="row" style="margin-top:8px" id="homedir">
+    <button data-hdir="0">X home +</button><button data-hdir="1">Y home +</button>
+    <button data-hdir="2">Z home +</button><button data-hdir="3">A home +</button>
+   </div>
+   <div class="row" style="margin-top:10px;align-items:flex-end">
+    <label class="small">Pull-off (mm)<br><input type="text" id="hpull" value="1.0" style="width:80px"></label>
+    <label class="small">Seek rate<br><input type="text" id="hseek" value="2000" style="width:80px"></label>
+    <label class="small">Approach feed<br><input type="text" id="hfeed" value="150" style="width:80px"></label>
+    <button class="p" onclick="homingSave()">Save homing</button>
+    <span class="small" id="homestatus"></span>
+   </div>
+   <div class="small" style="margin-top:8px">Last alarm: <b id="lastalarm">none</b>
+    <button style="padding:3px 8px;font-size:11px" onclick="clearAlarm()">Clear</button></div></div>
+</template>
+</main>
+
+<nav class="nav">
+ <a href="#" id="navback" onclick="navBack(); return false;">‹ Back</a>
+ <a href="#/main" data-p="main" class="on">Home</a>
+ <a href="#/move" data-p="move">Move</a>
+ <a href="#/wizards" data-p="wizards">Wizards</a>
+ <a href="#/files" data-p="files">Files</a>
+ <a href="#/settings" data-p="settings">Settings</a>
+</nav>
+
+<script>
+const $ = s => document.querySelector(s);
+let S = {}, HM = null, TERM = '';
+
+function api(url, opt) {
+  if (!opt || !opt.method || opt.method === 'GET')
+    url += (url.indexOf('?') < 0 ? '?' : '&') + '_=' + Date.now();
+  return fetch(url, opt).then(r => r.json());
+}
+
+function go(name, from) { location.hash = '#/' + name + (from ? '?from=' + from : ''); }
+
+const PAGE_TARGET = {
+  'Wizards': 'wizards', 'PCB': 'wizard-pcb', 'Flatten': 'wizard-flat',
+  'Simple job': 'wizard-simple', 'Heightmap': 'heightmap', 'Move': 'move',
+  'Files': 'files', 'Console': 'console', 'Settings': 'settings', 'Machine': 'settings-machine',
+  'Setup': 'machine-setup', 'Calibration': 'calibration', 'Settings view': 'settings-view', 'Firmware & About': 'firmware'
+};
+
+function crumbPath (name, from) {
+  switch (name) {
+    case 'main': return ['Home'];
+    case 'move': return ['Home', 'Move'];
+    case 'files': return ['Home', 'Files'];
+    case 'console': return ['Home', 'Console'];
+    case 'settings': return ['Home', 'Settings'];
+    case 'settings-machine': return ['Home', 'Settings', 'Machine'];
+    case 'machine-setup': return ['Home', 'Settings', 'Machine', 'Setup'];
+    case 'calibration': return ['Home', 'Settings', 'Machine', 'Calibration'];
+    case 'settings-view': return ['Home', 'Settings', 'Settings view'];
+    case 'firmware': return ['Home', 'Settings', 'Firmware & About'];
+    case 'job': return ['Home', 'Job'];
+    case 'machine-menu': return ['Home', 'Settings', 'Machine', 'Machine setup'];
+    case 'wizards': return ['Home', 'Wizards'];
+    case 'wizard-pcb': return ['Home', 'Wizards', 'PCB'];
+    case 'wizard-flat': return ['Home', 'Wizards', 'Flatten'];
+    case 'wizard-simple': return ['Home', 'Wizards', 'Simple job'];
+    case 'heightmap':
+      return from === 'wizard-pcb'
+        ? ['Home', 'Wizards', 'PCB', 'Heightmap']
+        : ['Home', 'Wizards', 'Heightmap'];
+    default: return ['Home'];
+  }
+}
+
+function renderCrumbs (name, from) {
+  const el = $('#crumbs');
+  const path = crumbPath(name, from);
+  if (path.length <= 1) { el.className = 'crumbs'; el.innerHTML = ''; return; }
+  const parent = name === 'heightmap'
+    ? (from === 'wizard-pcb' ? 'wizard-pcb' : 'wizards')
+    : path.length === 2 ? 'main' : PAGE_TARGET[path[1]] || 'wizards';
+  el.className = 'crumbs on';
+  let html = '<button title="Back" onclick="go(\'' + parent + '\')">‹</button>';
+  path.forEach((p, i) => {
+    if (i) html += '<span class="sep">/</span>';
+    html += i === path.length - 1
+      ? '<span class="cur">' + p + '</span>'
+      : '<button class="lnk" onclick="crumbGo(\'' + (i === 0 ? 'main' : PAGE_TARGET[p] || 'wizards') + '\')">' + p + '</button>';
+  });
+  el.innerHTML = html;
+}
+
+
+// ---------------------------------------------------------------------------
+// Machine page: settings help, indicators and calibration test
+// ---------------------------------------------------------------------------
+const HELP = {
+  params: ['Machine parameters',
+    'These are the same values as the $100-$132 settings.<br><br>' +
+    '<b>Steps/mm</b> — motor steps for 1 mm of travel. Calibrate: command 100 mm, measure the real movement, new = old × 100 / measured.<br>' +
+    '<b>Max rate</b> — fastest speed (mm/min). Too high causes lost steps.<br>' +
+    '<b>Acceleration</b> — how quickly the axis reaches max rate (mm/s², $120-$123). Too high causes lost steps; 3018-class machines usually run 100–300.<br>' +
+    '<b>Travel</b> — maximum distance the axis may move from the origin (soft limit).<br>' +
+    '<b>Dir invert</b> — reverses the motor direction without rewiring.'],
+  hard: ['Hard limits ($21)',
+    '<b>What it does:</b> watches every limit switch during motion. If one is hit, motion stops immediately with <code>ALARM:1</code> — the over-travel safety net. Works without homing.<br><br>' +
+    '<b>Needs:</b> correct <code>$5</code> polarity and clean wiring (electrical noise can cause false alarms).<br><br>' +
+    '<b>When it fails:</b> <code>ALARM:1 Hard limit</code>.<br><br>' +
+    '<b>Recovery:</b> move off the switch, then press Unlock (<code>$X</code>).'],
+  soft: ['Soft limits ($20)',
+    '<b>What it does:</b> software travel envelope built from <code>$130-$133</code> (max travel). It refuses any move/jog that would exceed it (<code>ALARM:2</code>), protecting even from bad G-code.<br><br>' +
+    '<b>Needs:</b> Homing enabled (the controller must know where it is) and real travel values.<br><br>' +
+    '<b>When it fails:</b> <code>ALARM:2 Soft limit</code>.<br><br>' +
+    '<b>Recovery:</b> reset, then re-home / move back inside the envelope.'],
+  homingcfg: ['Homing config ($23/$27)',
+    'Homing moves each axis in the negative direction unless its bit is set in <code>$23</code> (X=1, Y=2, Z=4, A=8). ' +
+    'Set a bit when the switch is at the <b>positive</b> end of that axis.<br><br>' +
+    '<code>$27</code> is the pull-off distance: after touching the switch the axis backs off this far before zeroing.<br><br>' +
+    'Before starting <code>$H</code>: make sure <b>no switch is pressed</b> and the machine has room to move — with hard limits on, an already-triggered switch causes an immediate alarm.'],
+  homing: ['Homing ($22)',
+    '<b>What it does:</b> enables the homing cycle (<code>$H</code>). The machine drives into the switches to establish machine zero, which makes soft limits and repeatable work coordinates possible.<br><br>' +
+    '<b>Needs:</b> correct switch polarity (<code>$5</code>), direction mask (<code>$23</code>) and pull-off (<code>$27</code>).<br><br>' +
+    '<b>When it fails:</b> wrong direction/pull-off &#8594; it drives the wrong way or reports a homing alarm.<br><br>' +
+    '<b>Recovery:</b> stop (<code>Reset</code>), fix direction/pull-off, retry.'],
+  noswitches: ['No limit switches?',
+    'You can run without limit switches, but with consequences:<br><br>' +
+    '• <b>No homing</b> → the machine does not know where it is after power-on/reset.<br>' +
+    '• <b>No hard limits</b> → nothing stops an over-travel move.<br>' +
+    '• <b>No soft limits</b> → the envelope cannot be enforced (needs homing).<br><br>' +
+    'Workflow: jog to a known corner, <b>Zero XY</b>, touch the surface and <b>Zero Z</b>, and enter the travel manually ' +
+    'in the last wizard step. Be careful at the ends of travel.'],
+  nohoming: ['Homing unavailable',
+    'Homing needs limit switches. Without it: position is lost on reset, you must zero the work manually each session, ' +
+    'and soft limits cannot be enabled. Hard limits also need switches.'],
+  manualtravel: ['Manual travel',
+    'Measure each axis from one mechanical end to the other with a ruler/tape, then enter the values ' +
+    '(no DRO auto-fill — without homing the position is meaningless). These values only matter for soft limits ' +
+    'and jog limits; with no homing, soft limits stay off, so treat the ends as hard stops.'],
+  dirs: ['Direction invert ($3)',
+    'Reverses the rotation direction of the selected motor in software — use it when an axis moves the wrong way instead of rewiring the motor. ' +
+    'Bit 0=X, 1=Y, 2=Z, 3=A. After saving, jog 1 mm on each axis and confirm the direction. ' +
+    'Changing direction also affects homing direction and soft limits — re-check those afterwards.'],
+  polarity: ['Limit switch polarity ($5)',
+    'This tells the controller how your switches are wired.<br><br>' +
+    '<b>NC (normally closed)</b> switches wired to GND: at rest the input is low → set <b>invert ON</b>. ' +
+    'Pressing opens the contact → triggered.<br>' +
+    '<b>NO (normally open)</b> switches: at rest open → <b>invert OFF</b>.<br><br>' +
+    'Symptom of wrong polarity: all indicators ON at rest and any movement triggers a limit alarm. ' +
+    'Fix polarity first, verify with the indicators, then enable hard limits ($21).'],
+  limits: ['Limit switches',
+    'Hand-test: press each switch (or bridge the input to GND).<br><br>' +
+    'The matching axis must light up. Wrong axis → check the input wiring and the <code>$5</code> invert setting. ' +
+    'Nothing lights → check <code>$10</code>/<code>$13</code> or the switch itself.'],
+  probe: ['Probe test',
+    'Touch the probe tip to the workpiece or GND clip.<br><br>' +
+    'Indicator on = probe triggered. If it reads inverted, change <code>$6</code>. ' +
+    'Always test the probe before running a heightmap probe cycle.'],
+  calib: ['Steps / backlash test',
+    'The controller is <b>open loop</b>: it counts steps, so its DRO returns to the start point even when the mechanics did not. Never trust the DRO for accuracy — measure with a tool.<br><br>' +
+    '<b>Steps/mm</b> — command a move of D (e.g. 100 mm), measure the real travel with calipers/ruler, then ' +
+    '<code>new steps/mm = old steps/mm × D / measured</code>.<br><br>' +
+    '<b>Backlash</b> — move +D, then −D, and measure the gap left at the reference point (dial indicator or feeler gauge). ' +
+    'That gap is the backlash; it is independent of steps/mm.<br><br>' +
+    'Both measurements are manual; the buttons only move the axis and compute the numbers.']
+};
+
+// ⓘ buttons live inside <label>s; stop them from toggling the checkbox.
+document.addEventListener('click', e => {
+  const b = e.target.closest('.iBtn');
+  if (b) e.preventDefault();
+}, true);
+
+// ---------------------------------------------------------------------------
+// Machine setup wizard (explanations + diagrams) and calibration wizard
+// ---------------------------------------------------------------------------
+const SETUP = {
+  limits: ['Limit switches', `
+    <p>Each axis limit input is a 3-pin header: <b>5V · GND · S</b>. A mechanical switch goes between
+    <b>S and GND</b> (never 5V). For two switches on one axis, wire them in <b>parallel</b> (both S→GND);
+    in series only one would never trigger.</p>
+    <div class="diagram"><svg viewBox="0 0 360 130">
+      <!-- header -->
+      <rect x="20" y="20" width="130" height="90" rx="8" fill="none" stroke="#2b3742"/>
+      <text x="30" y="40" fill="#8b98a5" font-size="10">limit header</text>
+      <text x="30" y="62" fill="#8b98a5" font-size="10">5V</text>
+      <text x="30" y="86" fill="#e6edf3" font-size="11">GND</text>
+      <text x="30" y="106" fill="#e6edf3" font-size="11">S</text>
+      <circle cx="58" cy="58" r="4" fill="#3a4552"/>
+      <circle cx="58" cy="82" r="4" fill="#3fb950"/>
+      <circle cx="58" cy="102" r="4" fill="#4f9cf9"/>
+      <!-- 5V not used -->
+      <path d="M58 58 h28" stroke="#3a4552" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="92" y="54" fill="#8b98a5" font-size="9">not used</text>
+      <!-- GND -->
+      <path d="M58 82 H165" stroke="#3fb950" stroke-width="2"/>
+      <!-- S -->
+      <path d="M58 102 H165" stroke="#4f9cf9" stroke-width="2"/>
+      <!-- switch: two terminals between GND and S -->
+      <circle cx="165" cy="82" r="4" fill="#3fb950"/>
+      <circle cx="165" cy="102" r="4" fill="#4f9cf9"/>
+      <path d="M165 82 L178 96" stroke="#e6edf3" stroke-width="2"/>
+      <path d="M165 82 L195 74" stroke="#8b98a5" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <text x="200" y="78" fill="#8b98a5" font-size="10">switch (NO)</text>
+      <text x="200" y="94" fill="#8b98a5" font-size="9">between GND and S</text>
+      <text x="200" y="110" fill="#8b98a5" font-size="9">pressing closes the circuit</text>
+      <text x="20" y="16" fill="#8b98a5" font-size="9">2-wire switch: S + GND (5V stays unconnected)</text>
+    </svg></div>
+    <p><b>Test:</b> Machine → Limit switches → press each switch by hand; its <i>Live</i> badge must light.
+    Wrong polarity: all triggered at rest → toggle <code>$5</code>. Then enable <b>Hard limits ($21)</b>.</p>
+    <p><b>Warnings:</b> never wire a switch to 5V (it can power-cycle the board); with hard limits on, move off
+    a switch before jogging.</p>`,
+    [['Open limit switches','go(\'settings-machine\')'], ['Monitor inputs','go(\'settings-machine\'); setTimeout(rawMonitor, 400)']]],
+  probe: ['Probe (touch plate)', `
+    <p>The probe input is the <b>Probe</b> header (S/GND). Keep the <b>Probe</b> connector for the touch plate:</p>
+    <div class="diagram"><svg viewBox="0 0 360 110">
+      <rect x="20" y="25" width="60" height="60" rx="6" fill="none" stroke="#2b3742"/>
+      <text x="26" y="45" fill="#8b98a5" font-size="9">Probe</text>
+      <text x="26" y="62" fill="#e6edf3" font-size="10">GND</text><text x="26" y="78" fill="#e6edf3" font-size="10">S</text>
+      <path d="M80 55 H150" stroke="#4f9cf9" stroke-width="2"/>
+      <path d="M150 55 H150 V20 H250" stroke="#e6edf3" stroke-width="2"/>
+      <rect x="150" y="55" width="120" height="8" fill="#8b98a5"/>
+      <text x="160" y="82" fill="#8b98a5" font-size="10">PCB / workpiece</text>
+      <circle cx="270" cy="20" r="8" fill="none" stroke="#3fb950" stroke-width="2"/>
+      <text x="285" y="24" fill="#8b98a5" font-size="10">probe clip to the tool</text>
+    </svg></div>
+    <p><b>Test:</b> touch the tool to the plate/clip — the Probe badge must light.
+    If inverted, change <code>$6</code>. Always test before a heightmap probe.</p>`,
+    [['Open probe card','go(\'settings-machine\')'], ['Heightmap page','go(\'heightmap\')']]],
+  homing: ['Homing sequence', `
+    <p>Homing order is <b>Z first, lift, then X and Y</b> — so the tool never drags across the work.</p>
+    <div class="diagram"><svg viewBox="0 0 360 130">
+      <rect x="20" y="20" width="320" height="90" rx="8" fill="none" stroke="#2b3742"/>
+      <text x="30" y="38" fill="#4f9cf9" font-size="10">1 · Z homes first (up)</text>
+      <text x="30" y="56" fill="#4f9cf9" font-size="10">2 · Z backs off / lifts</text>
+      <text x="30" y="74" fill="#4f9cf9" font-size="10">3 · X homes, then Y</text>
+      <text x="30" y="98" fill="#8b98a5" font-size="9">$23 = which end (+ bit set) · $27 = pull-off</text>
+      <path d="M250 90 V50" stroke="#e6edf3" stroke-width="2" marker-end="url(#a)"/>
+      <defs><marker id="a" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6z" fill="#e6edf3"/></marker></defs>
+    </svg></div>
+    <p><b>Before $H:</b> no switch pressed (Live: none), enough clearance, hand near power.
+    Wrong direction → set that axis' <b>home +</b> bit. If a switch is already engaged, move off it first.</p>`,
+    [['Open homing config','go(\'settings-machine\')'], ['Home the machine','confirmHome()']]],
+  steps: ['Steps per mm', `
+    <p>Steps/mm converts motor steps to distance: <code>steps/mm = 200 × microsteps ÷ lead (mm/rev)</code>.
+    For a 2 mm lead at 1/8 microstepping that's <b>800</b>.</p>
+    <p>Calibrate by measuring a real move: command 100 mm, measure with calipers/ruler, then
+    <code>new = old × 100 / measured</code>. Do this per axis; vertical axes use a short 20 mm move.</p>
+    <p>Use the <b>Calibration wizard</b> for the guided version — it computes and writes the setting for you.</p>`,
+    [['Open calibration wizard','go(\'calibration\')']]],
+  travel: ['Travel & soft limits', `
+    <p><b>Travel</b> ($130-$133) is the distance from the home end into the work area. Measure it physically
+    (or home then move to the far switch).</p>
+    <p><b>Soft limits</b> ($20) prevents any move beyond that envelope; it needs <b>Homing</b> enabled.
+    Enable it only after travel and homing are correct — it is your best protection against crashes.</p>
+    <div class="diagram"><svg viewBox="0 0 360 90">
+      <line x1="30" y1="45" x2="330" y2="45" stroke="#8b98a5" stroke-width="2"/>
+      <line x1="30" y1="35" x2="30" y2="55" stroke="#3fb950" stroke-width="3"/>
+      <line x1="180" y1="35" x2="180" y2="55" stroke="#f85149" stroke-width="3"/>
+      <text x="22" y="70" fill="#3fb950" font-size="10">home (0)</text>
+      <text x="140" y="70" fill="#f85149" font-size="10">far end (travel)</text>
+      <text x="30" y="25" fill="#8b98a5" font-size="9">moves into the work area</text>
+    </svg></div>`,
+    [['Open parameters','go(\'settings-machine\')']]],
+  spindle: ['Spindle & coolant', `
+    <p>Spindle on/off: <code>M3 S&lt;rpm&gt;</code> / <code>M5</code>. Coolant: <code>M8</code> flood / <code>M9</code> off.
+    On this machine the spindle is controlled through the PWM/relay output — verify direction and RPM before cutting.</p>
+    <p><b>Safety:</b> the UI only allows spindle-on while Idle; M5/off is always available.</p>`,
+    [['Open Move page','go(\'move\')']]]
+};
+
+function setupShow (key) {
+  const t = SETUP[key]; if (!t) return;
+  $('#helptitle').textContent = t[0];
+  let html = t[1] + '<div class="row" style="margin-top:10px">' +
+    t[2].map(a => `<button onclick="${a[1]}">${a[0]}</button>`).join('') + '</div>';
+  $('#helpbody').innerHTML = html;
+  $('#helpmodal').classList.add('on');
+}
+
+// ---- shared wizard/step components (used by both setup and calibration wizards) ----
+function stepsHTML (p, axis, dist, feed) {
+  return `<div class="card"><h3>Calibrate ${axis} steps/mm</h3>
+    <div class="small">Command a ${dist} mm ${axis} move, measure it, then apply.
+    Formula: <code>new = old × ${dist} / measured</code>.</div>
+    <div class="row" style="margin-top:10px">
+     <button data-need-idle onclick="stepMove('${p}','${axis}',${dist},${feed})">Move ${axis} −${dist} mm</button>
+     <label class="small">Measured (mm)<br><input type="text" id="${p}meas" class="minp" placeholder="e.g. ${dist - 2}"></label>
+     <button onclick="stepApply('${p}','${axis}',${dist})">Apply</button>
+    </div>
+    <div class="small" id="${p}res" style="margin-top:8px"></div></div>`;
+}
+
+function ratesHTML (p) {
+  return `<div class="card"><h3>Max feed rate &amp; acceleration</h3>
+    <div class="small">Start with the values below, raise the rate until skipping/noise appears, then back off ~20 %.
+    Acceleration too high loses steps on the ramp.</div>
+    <div class="row" style="margin-top:10px">
+     <label class="small">X rate<br><input type="text" id="${p}rX" class="minp" value="800"></label>
+     <label class="small">Y rate<br><input type="text" id="${p}rY" class="minp" value="800"></label>
+     <label class="small">Z rate<br><input type="text" id="${p}rZ" class="minp" value="800"></label>
+    </div>
+    <div class="row" style="margin-top:8px">
+     <label class="small">X accel<br><input type="text" id="${p}aX" class="minp" value="100"></label>
+     <label class="small">Y accel<br><input type="text" id="${p}aY" class="minp" value="100"></label>
+     <label class="small">Z accel<br><input type="text" id="${p}aZ" class="minp" value="200"></label>
+    </div>
+    <div class="row" style="margin-top:10px">
+     <button onclick="ratesApply('${p}')">Apply rates / accel</button>
+     <button data-need-idle onclick="ratesTest('${p}')">Test move X ±10</button>
+    </div>
+    <div class="small" id="${p}res" style="margin-top:8px"></div></div>`;
+}
+
+function travelHTML (p, manual) {
+  return `<div class="card"><h3>Travel (machine size)</h3>
+    <div class="small">${manual
+      ? 'No homing: measure each axis end-to-end with a ruler and enter the values. Soft limits stay disabled (they need homing).'
+      : 'Jog each axis to its far end, then press Fill from DRO. Apply writes $130-$132 and refreshes the soft-limit envelope.'}</div>
+    <div class="row" style="margin-top:10px">
+     <label class="small">X<br><input type="text" id="${p}tX" class="minp" placeholder="300"></label>
+     <label class="small">Y<br><input type="text" id="${p}tY" class="minp" placeholder="180"></label>
+     <label class="small">Z<br><input type="text" id="${p}tZ" class="minp" placeholder="45"></label>
+    </div>
+    <div class="row" style="margin-top:10px">
+     ${manual ? '' : `<button onclick="travelFill('${p}')">Fill from DRO</button>`}
+     <button class="p" onclick="travelApply('${p}', ${manual})">Apply travel</button>
+    </div>
+    <div class="small" id="${p}res" style="margin-top:8px"></div></div>`;
+}
+
+async function stepMove (p, axis, dist, feed) {
+  const r = await cmdLine(`$J=G91 ${axis}${-dist} F${feed}`);
+  const el = $('#' + p + 'res');
+  if (el) el.textContent = r && r.ok ? `moving ${axis} −${dist} mm — measure the real distance` : 'move rejected';
+}
+
+async function stepApply (p, axis, dist) {
+  const meas = parseFloat($('#' + p + 'meas').value);
+  const el = $('#' + p + 'res');
+  if (!isFinite(meas) || meas <= 0) { el.textContent = 'enter the measured distance'; return; }
+  const st = await api('/api/settings');
+  const idx = 'XYZ'.indexOf(axis);
+  const cur = st.axes[idx].steps;
+  const neu = cur * dist / meas;
+  const r = await cmdLine(`$${100 + idx}=${neu.toFixed(3)}`);
+  el.innerHTML = r && r.ok ? `${axis} steps/mm: <b>${neu.toFixed(2)}</b> (was ${cur.toFixed(2)}) — saved` : 'save failed';
+}
+
+async function ratesApply (p) {
+  const out = $('#' + p + 'res');
+  const rates = ['rX','rY','rZ'].map(k => parseFloat($('#' + p + k).value));
+  const accs  = ['aX','aY','aZ'].map(k => parseFloat($('#' + p + k).value));
+  let n = 0;
+  for (let i = 0; i < 3; i++) if (isFinite(rates[i]) && rates[i] > 0) { const r = await cmdLine(`$${110+i}=${rates[i]}`); if (r && r.ok) n++; await sleep(100); }
+  for (let i = 0; i < 3; i++) if (isFinite(accs[i]) && accs[i] > 0) { const r = await cmdLine(`$${120+i}=${accs[i]}`); if (r && r.ok) n++; await sleep(100); }
+  out.textContent = `saved ${n}/6 rate/accel settings`;
+}
+
+async function ratesTest (p) {
+  const out = $('#' + p + 'res');
+  out.textContent = 'test move X −10 / +10 at current max rate…';
+  await cmdLine('$J=G91 X-10 F2000'); await sleep(2500);
+  await cmdLine('$J=G91 X10 F2000');
+  out.textContent = 'done — listen for skipping; lower the rate if needed';
+}
+
+function travelFill (p) {
+  ['tX','tY','tZ'].forEach((k, i) => { const v = [S.x, S.y, S.z][i]; const el = $('#' + p + k); if (el) el.value = Math.abs(v || 0).toFixed(1); });
+  const out = $('#' + p + 'res');
+  if (out) out.textContent = 'filled from current DRO — apply to save';
+}
+
+async function travelApply (p, manual) {
+  const out = $('#' + p + 'res');
+  const vals = ['tX','tY','tZ'].map(k => parseFloat($('#' + p + k).value));
+  let n = 0;
+  for (let i = 0; i < 3; i++) if (isFinite(vals[i]) && vals[i] > 0) { const r = await cmdLine(`$${130+i}=${vals[i]}`); if (r && r.ok) n++; await sleep(120); }
+  if (!manual) { await cmdLine('$20=0'); await sleep(100); await cmdLine('$20=1'); }
+  out.textContent = `saved ${n}/3 travel values` + (manual ? ' — soft limits stay off (homing required)' : ' — soft-limit envelope refreshed');
+}
+
+// ---- first-time setup wizard (ordered) ----
+const SETUPW = { step: 1, skipped: {} };
+const SETUPW_STEPS = ['Limit switches','Probe','Homing','Steps/mm','Speeds','Travel & limits'];
+
+function setupWCancel () { if (confirm('Exit the setup wizard?')) { SETUPW.step = 1; SETUPW.skipped = {}; go('settings'); } }
+function setupWBack () { if (SETUPW.step > 1) { SETUPW.step--; setupWRender(); } }
+function setupWNext () {
+  delete SETUPW.skipped[SETUPW.step];
+  if (SETUPW.step === 1) delete SETUPW.skipped[3];
+  if (SETUPW.step < SETUPW_STEPS.length) { SETUPW.step++; setupWRender(); } else go('settings');
+}
+function setupWSkip () {
+  SETUPW.skipped[SETUPW.step] = true;
+  if (SETUPW.step === 1) SETUPW.skipped[3] = true;
+  if (SETUPW.step < SETUPW_STEPS.length) SETUPW.step++;
+  setupWRender();
+}
+
+async function setupHardLimits () {
+  const r = await cmdLine('$21=1');
+  alert(r && r.ok ? 'Hard limits enabled ($21=1)' : 'failed to enable hard limits');
+}
+
+async function setupHomeTest () {
+  if (!confirm('Home the machine now? Z first, then X/Y. Keep your hand near the power switch.')) return;
+  await cmdLine('$H');
+}
+
+function setupWRender () {
+  const st = $('#setupsteps');
+  if (st) st.innerHTML = SETUPW_STEPS.map((t, i) =>
+    `<div class="${i + 1 === SETUPW.step ? 'on' : (i + 1 < SETUPW.step ? 'done' : '')}">${i + 1} ${t}</div>`).join('');
+  const b = $('#setupbody');
+  const step = SETUPW.step;
+  if (step === 1) {
+    b.innerHTML = `<div class="card"><h3>1 · Limit switches <button class="iBtn" onclick="showHelp('noswitches')">i</button></h3>${SETUP.limits[1]}
+      <div class="small" style="margin-top:6px;color:var(--warn)">No limit switches? Press <b>Skip</b> — homing and soft limits
+      will be unavailable and Travel must be entered manually.</div></div>
+      <div id="wiz-slot-limits"></div>`;
+    mountCard('limits', 'wiz-slot-limits'); machineLoad();
+  } else if (step === 2) {
+    b.innerHTML = `<div class="card"><h3>2 · Probe <button class="iBtn" onclick="showHelp('probe')">i</button></h3>${SETUP.probe[1]}</div>
+      <div id="wiz-slot-probe"></div>`;
+    mountCard('probe', 'wiz-slot-probe');
+  } else if (step === 3) {
+    if (SETUPW.skipped[1]) {
+      b.innerHTML = `<div class="card"><h3>3 · Homing <button class="iBtn" onclick="showHelp('nohoming')">i</button></h3>
+        <div class="small">Limit switches were skipped, so <b>homing is unavailable</b>. Position is lost on reset/power-off,
+        you zero the work manually each session, and soft limits cannot be used.</div></div>`;
+    } else {
+      b.innerHTML = `<div class="card"><h3>3 · Homing <button class="iBtn" onclick="showHelp('nohoming')">i</button></h3>${SETUP.homing[1]}
+        <div class="row" style="margin-top:10px"><button onclick="setupHomeTest()">Test Home ($H)</button></div></div>
+        <div id="wiz-slot-homing"></div>`;
+      mountCard('homing', 'wiz-slot-homing'); machineLoad();
+    }
+  } else if (step === 4) {
+    b.innerHTML = `<div class="card"><h3>4 · Steps per mm</h3><div class="small">Pick the axis to calibrate — each needs a measured move.</div></div>
+      <div class="row" style="margin-top:8px" id="swaxrow"><button id="swaxX" onclick="setupStepAxis('X')">X</button><button id="swaxY" onclick="setupStepAxis('Y')">Y</button><button id="swaxZ" onclick="setupStepAxis('Z')">Z</button></div>
+      <div id="wiz-slot-steps"></div>`;
+  } else if (step === 5) {
+    b.innerHTML = `<div id="wiz-slot-rates"></div>`;
+    const el = $('#wiz-slot-rates'); el.innerHTML = ratesHTML('sw'); machineLoad();
+  } else {
+    const manual = SETUPW.skipped[1] || SETUPW.skipped[3];
+    b.innerHTML = `<div id="wiz-slot-travel"></div>`;
+    $('#wiz-slot-travel').innerHTML = travelHTML('sw', manual);
+  }
+  const back = $('#setupwback'), next = $('#setupwnext'), skip = $('#setupwskip');
+  if (back) back.disabled = step === 1;
+  if (skip) skip.style.display = (step === 1 || step === 2 || step === 3) ? '' : 'none';
+  if (next) next.textContent = step === SETUPW_STEPS.length ? 'Done' : 'Next →';
+}
+
+let SETUP_STEP_AXIS = 'X';
+function setupStepAxis (axis) {
+  SETUP_STEP_AXIS = axis;
+  const el = $('#wiz-slot-steps'); if (!el) return;
+  el.innerHTML = stepsHTML('sw', axis, axis === 'Z' ? 20 : 100, axis === 'Z' ? 300 : 800);
+}
+
+// ---- calibration wizard (uses the same step components) ----
+const CALW = { step: 1 };
+const CALW_STEPS = ['Home','X steps','Y steps','Z steps','Max feed / accel','Limits','Travel'];
+const CAL_AXES = ['', 'X', 'Y', 'Z'];
+
+function calCancel () { if (confirm('Exit the calibration wizard?')) { CALW.step = 1; go('settings-machine'); } }
+function calBack () { if (CALW.step > 1) { CALW.step--; calRender(); } }
+function calNext () { if (CALW.step < CALW_STEPS.length) { CALW.step++; calRender(); } else go('settings-machine'); }
+
+function calRender () {
+  const st = $('#calsteps');
+  if (st) st.innerHTML = CALW_STEPS.map((t, i) =>
+    `<div class="${i + 1 === CALW.step ? 'on' : (i + 1 < CALW.step ? 'done' : '')}">${i + 1} ${t}</div>`).join('');
+  const b = $('#calbody');
+  const step = CALW.step;
+  if (step === 1) {
+    b.innerHTML = `<div class="card"><h3>1 · Home the machine</h3>
+      <div class="small">Z homes first and backs off, then X and Y. Nothing must be pressed and the tool must be clear.</div>
+      <div class="row" style="margin-top:10px"><button class="p" onclick="cmdLine('$H')">Home ($H)</button></div>
+      <div class="small" style="margin-top:8px">state: ${S.state}</div></div>`;
+  } else if (step >= 2 && step <= 4) {
+    const ax = CAL_AXES[step];
+    b.innerHTML = stepsHTML('cal', ax, ax === 'Z' ? 20 : 100, ax === 'Z' ? 300 : 800);
+  } else if (step === 5) {
+    b.innerHTML = ratesHTML('cal'); machineLoad();
+  } else if (step === 6) {
+    b.innerHTML = `<div class="card"><h3>6 · Limits</h3>
+      <div class="small">Enable soft limits (needs Homing) so moves outside the envelope are refused, and hard limits.</div>
+      <div class="row" style="margin-top:10px"><button class="p" onclick="calLimits()">Enable soft + hard limits</button></div>
+      <div class="small" id="calres3" style="margin-top:8px"></div></div>`;
+  } else {
+    b.innerHTML = travelHTML('cal', false);
+  }
+  const back = $('#calback'), next = $('#calnext');
+  if (back) back.disabled = step === 1;
+  if (next) next.textContent = step === CALW_STEPS.length ? 'Done' : 'Next →';
+}
+
+async function calLimits () {
+  await cmdLine('$20=1'); await cmdLine('$21=1');
+  $('#calres3').textContent = 'Soft + hard limits enabled. Re-home to apply the envelope.';
+}
+
+function confirmHome () {
+  if (confirm('Start homing now? Keep your hand near the power switch.')) { cmdLine('$H'); go('move'); }
+}
+
+// ---- view settings ----
+async function loadAllSettings () {
+  try {
+    const s = await api('/api/settings');
+    let h = '<table class="mtable"><tr><th>Axis</th><th>Steps/mm</th><th>Max rate</th><th>Accel</th><th>Travel</th><th>Dir inv</th></tr>';
+    s.axes.forEach(a => {
+      h += `<tr><td class="n">${a.letter}</td><td>${(a.steps||0).toFixed(3)}</td><td>${(a.rate||0).toFixed(0)}</td>` +
+           `<td>${((a.accel||0)/3600).toFixed(1)}</td><td>${Math.abs(a.travel||0).toFixed(1)}</td><td>${a.dir_inv?'yes':'no'}</td></tr>`;
+    });
+    h += '</table>';
+    const l = s.limits || {}, hc = s.homingcfg || {};
+    h += `<div class="small" style="margin-top:10px">
+      <div>Limits: invert ${l.invert} · hard ${l.hard} · soft ${l.soft} · homing ${l.homing}</div>
+      <div>Homing: dir ${hc.dir} · pull-off ${hc.pulloff} · feed ${hc.feed} · seek ${hc.seek} · debounce ${hc.debounce}</div>
+      <div>Step invert ${s.step_invert} · dir invert ${s.dir_invert}</div></div>`;
+    $('#allsettings').innerHTML = h;
+  } catch (e) { $('#allsettings').textContent = 'settings unavailable'; }
+}
+
+function dumpAllSettings () { cmdLine('$$'); go('console'); }
+
+async function backupSetup () {
+  const st = await api('/api/settings');
+  const info = await api('/api/info');
+  const data = {
+    app: 'grblHAL-dlc32max', board: info.board, version: info.version, built: info.built, api: info.api,
+    axes: st.axes.map(a => ({
+      letter: a.letter, steps: a.steps, rate: a.rate, accel_mm_s2: Math.round(a.accel / 36) / 100,
+      travel: Math.abs(a.travel), dir_inv: a.dir_inv
+    })),
+    dir_invert: st.dir_invert, step_invert: st.step_invert,
+    limits: st.limits, homingcfg: st.homingcfg
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'dlc32max-settings-' + new Date().toISOString().slice(0,19).replace(/[:T]/g,'') + '.json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+
+async function restoreSetup (input) {
+  const file = input.files[0];
+  if (!file) return;
+  let data;
+  try { data = JSON.parse(await file.text()); } catch (e) { alert('Not a valid backup file'); return; }
+  if (!data.axes || !data.axes.length) { alert('Backup has no axis data'); return; }
+  if (!confirm('Apply this setup to the controller? Current settings will be overwritten.')) return;
+  if (S.state !== 'Idle') { alert('Machine must be Idle'); return; }
+
+  const cmds = [];
+  data.axes.forEach((a, i) => {
+    cmds.push(`$${100 + i}=${a.steps}`);
+    cmds.push(`$${110 + i}=${a.rate}`);
+    cmds.push(`$${120 + i}=${a.accel_mm_s2}`);
+    cmds.push(`$${130 + i}=${Math.abs(a.travel)}`);
+  });
+  if (data.dir_invert !== undefined) cmds.push(`$3=${data.dir_invert}`);
+  if (data.step_invert !== undefined) cmds.push(`$2=${data.step_invert}`);
+  const l = data.limits || {}, h = data.homingcfg || {};
+  if (l.invert !== undefined) cmds.push(`$5=${l.invert}`);
+  if (l.hard !== undefined) cmds.push(`$21=${l.hard ? 1 : 0}`);
+  if (l.soft !== undefined) cmds.push(`$20=${l.soft ? 1 : 0}`);
+  if (l.homing !== undefined) cmds.push(`$22=${l.homing ? 1 : 0}`);
+  if (h.dir !== undefined) cmds.push(`$23=${h.dir}`);
+  if (h.feed !== undefined) cmds.push(`$24=${h.feed}`);
+  if (h.seek !== undefined) cmds.push(`$25=${h.seek}`);
+  if (h.debounce !== undefined) cmds.push(`$26=${h.debounce}`);
+  if (h.pulloff !== undefined) cmds.push(`$27=${h.pulloff}`);
+
+  let ok = 0;
+  for (const c of cmds) {
+    const r = await cmdLine(c);
+    if (r && r.ok) ok++;
+    await sleep(120);
+  }
+  alert(`Restored ${ok}/${cmds.length} settings. Re-home afterwards.`);
+  input.value = '';
+  machineLoad();
+}
+
+function showHelp (key) {
+  if (SETUP[key]) return setupShow(key);
+  const h = HELP[key]; if (!h) return;
+  $('#helptitle').textContent = h[0];
+  $('#helpbody').innerHTML = h[1];
+  $('#helpmodal').classList.add('on');
+}
+
+let HOMECFG = { dir: 0, pulloff: 1.0 };
+
+function homingSetMask (mask) {
+  HOMECFG.dir = mask & 0x0f;
+  document.querySelectorAll('#homedir button[data-hdir]').forEach(b => {
+    const i = parseInt(b.dataset.hdir, 10);
+    b.classList.toggle('on', !!(HOMECFG.dir & (1 << i)));
+  });
+}
+
+async function homingSave () {
+  const st = $('#homestatus');
+  if (S.state !== 'Idle') { st.textContent = 'machine must be Idle'; return; }
+  const pull = parseFloat($('#hpull').value);
+  const seek = parseFloat($('#hseek').value);
+  const feed = parseFloat($('#hfeed').value);
+  let ok = 0;
+  if ((await cmdLine('$23=' + HOMECFG.dir))?.ok) ok++;
+  await sleep(120);
+  if (isFinite(pull) && (await cmdLine('$27=' + pull))?.ok) ok++;
+  await sleep(120);
+  if (isFinite(seek) && (await cmdLine('$25=' + seek))?.ok) ok++;
+  await sleep(120);
+  if (isFinite(feed) && (await cmdLine('$24=' + feed))?.ok) ok++;
+  st.textContent = 'saved ' + ok + '/4 ($23=' + HOMECFG.dir + ', $27=' + pull + ', $25=' + seek + ', $24=' + feed + ')';
+  setTimeout(machineLoad, 600);
+}
+
+const ALARM_NAMES = {
+  1: 'Hard limit', 2: 'Soft limit', 3: 'Abort during cycle', 4: 'Probe fail (initial)',
+  5: 'Probe fail (contact)', 6: 'Homing fail (reset)', 7: 'Homing fail (door)',
+  8: 'Fail pull-off', 9: 'Homing fail (approach)', 10: 'E-stop', 11: 'Homing required',
+  12: 'Limits engaged', 13: 'Probe protection', 14: 'Spindle', 15: 'Homing fail (auto-square)',
+  16: 'Selftest failed', 17: 'Motor fault', 18: 'Homing fail'
+};
+
+function updateAlarm () {
+  const el = $('#lastalarm');
+  if (!el) return;
+  if (S.alarm) el.textContent = 'ALARM:' + S.alarm + ' ' + (ALARM_NAMES[S.alarm] || '');
+  else if (S.last_alarm) el.textContent = 'last: ALARM:' + S.last_alarm + ' ' + (ALARM_NAMES[S.last_alarm] || '');
+  else el.textContent = 'none';
+}
+
+async function clearAlarm () {
+  await api('/api/alarm/clear', {method:'POST'});
+  setTimeout(poll, 300);
+}
+
+function syncFlags () {
+  if ($('#chk21')) $('#chk21').checked = !!MACH.limits.hard;
+  if ($('#chk20')) $('#chk20').checked = !!(MACH.limits.soft & 0x0f);
+  if ($('#chk22')) $('#chk22').checked = !!MACH.limits.homing;
+}
+
+function closeHelp () { $('#helpmodal').classList.remove('on'); syncFlags(); }
+
+function sleep (ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function livePoll () {
+  try { return await api('/api/poll'); } catch (e) { return S; }
+}
+
+// Wait until the axis has actually moved and the machine is Idle again.
+async function calWaitMove (axis, beforePos, timeout) {
+  const t0 = Date.now();
+  let moved = false;
+  while (Date.now() - t0 < (timeout || 120000)) {
+    await sleep(250);
+    const p = await livePoll();
+    if (p.state === 'Alarm') return p;
+    if (Math.abs((p[axis] || 0) - beforePos) > 0.005) moved = true;
+    if (moved && p.state === 'Idle') return p;
+  }
+  return await livePoll();
+}
+
+async function calStart () {
+  const axis = $('#calaxis').value;
+  const D = parseFloat($('#caldist').value);
+  const F = parseFloat($('#calfeed').value) || 500;
+  const st = $('#calstatus');
+  if (!D || Math.abs(D) > 500) { st.textContent = 'enter a distance between 1 and 500 mm'; return; }
+  if (S.state !== 'Idle') { st.textContent = 'machine must be Idle (state: ' + S.state + ')'; return; }
+
+  const btn = $('#calstart');
+  const p0 = await livePoll();
+  if (p0.state !== 'Idle') { st.textContent = 'machine must be Idle (state: ' + p0.state + ')'; return; }
+
+  setBusy(btn, true, 'Moving…');
+  const start = p0[axis] || 0;
+
+  st.innerHTML = '1/3 moving +' + D + ' mm …';
+  await api(`/api/jog?axis=${axis}&d=${D}&feed=${F}`);
+  let p1 = await calWaitMove(axis, start);
+  if (p1.state !== 'Idle') { st.textContent = 'machine stopped: ' + p1.state + ' (check limits/alarm)'; setBusy(btn, false); return; }
+  const out = (p1[axis] || 0) - start;
+
+  st.innerHTML = '2/3 moving −' + D + ' mm …';
+  await api(`/api/jog?axis=${axis}&d=${-D}&feed=${F}`);
+  let p2 = await calWaitMove(axis, p1[axis] || 0);
+  if (p2.state !== 'Idle') { st.textContent = 'machine stopped: ' + p2.state + ' (check limits/alarm)'; setBusy(btn, false); return; }
+  const back = (p2[axis] || 0) - start;
+  const ok = Math.abs(back) <= 0.05;
+
+  st.innerHTML = `3/3 done — DRO out: <b>${out.toFixed(3)}</b> mm (commanded ${D}), ` +
+                 `DRO return: <b>${back.toFixed(3)}</b> mm from start<br>` +
+                 (ok ? 'DRO returned to the start point (expected — open loop). Now measure the real travel and the gap below.'
+                     : 'DRO deviation ' + back.toFixed(3) + ' mm — a command was rejected/clamped or the machine stopped.');
+  setBusy(btn, false);
+}
+
+async function calBacklash () {
+  const gap = parseFloat($('#calbacklash').value);
+  const out = $('#calresult');
+  const axis = $('#calaxis').value.toUpperCase();
+  if (!isFinite(gap)) { out.textContent = 'enter the measured gap'; return; }
+  const g = Math.abs(gap);
+  out.innerHTML = `Backlash on ${axis} ≈ <b>${g.toFixed(3)}</b> mm<br>` +
+    `<span class="muted">` +
+    (g <= 0.02 ? 'Within normal range — nothing to do.' :
+     g <= 0.1 ? 'Noticeable — acceptable for rough work; for PCB isolation consider reducing it mechanically (belt tension, nut preload).' :
+     'Large — fix the mechanics before expecting accurate PCB work.') +
+    `<br>Backlash compensation (<code>$160-$163</code>) is disabled in this build; it can be enabled if you prefer software compensation.</span>`;
+}
+
+async function calApply () {
+  const D = parseFloat($('#caldist').value);
+  const meas = parseFloat($('#calmeasured').value);
+  const axis = $('#calaxis').value;
+  const out = $('#calresult');
+  if (!D || !meas) { out.textContent = 'enter the measured distance'; return; }
+  const s = await api('/api/settings');
+  const idx = 'xyza'.indexOf(axis);
+  const cur = s.axes[idx].steps;
+  const neu = cur * D / meas;
+  const param = { x: 100, y: 101, z: 102, a: 103 }[axis];
+  out.innerHTML = `Suggested steps/mm for ${axis.toUpperCase()}: <b>${neu.toFixed(3)}</b> (was ${cur.toFixed(3)})<br>` +
+                  `<span class="muted">Apply in the console: <code>$${param}=${neu.toFixed(3)}</code></span>`;
+}
+
+let MACH = { limits: null, dir: 0 };
+
+function dirSetMask (mask) {
+  MACH.dir = mask & 0x0f;
+  document.querySelectorAll('#dirrow button[data-dir]').forEach(b => {
+    const i = parseInt(b.dataset.dir, 10);
+    b.classList.toggle('on', !!(MACH.dir & (1 << i)));
+  });
+  const el = $('#dirmask');
+  if (el) el.textContent = MACH.dir + ' ($3=' + MACH.dir + ')';
+}
+
+async function dirTest (axis) {
+  const el = $('#dirtest');
+  const r = await api(`/api/jog?axis=${axis}&d=1&feed=300`);
+  el.textContent = r && r.ok
+    ? `jogging ${axis.toUpperCase()} +1 mm at 300 mm/min — did it move the expected way?`
+    : 'jog rejected (machine must be Idle)';
+}
+
+async function dirSave () {
+  const st = $('#dirstatus');
+  if (S.state !== 'Idle') { st.textContent = 'machine must be Idle'; return; }
+  const r = await cmdLine('$3=' + MACH.dir);
+  st.innerHTML = r && r.ok ? 'saved $3=' + MACH.dir + ' — jog each axis to verify' : 'save failed';
+}
+
+function polSetMask (mask) {
+  MACH.mask = mask & 0x0f;
+  document.querySelectorAll('button.inv[data-pol]').forEach(b => {
+    const i = parseInt(b.dataset.pol, 10);
+    b.classList.toggle('on', !!(MACH.mask & (1 << i)));
+  });
+  const el = $('#polmask');
+  if (el) el.textContent = MACH.mask + ' ($5=' + MACH.mask + ')';
+}
+
+function polToggle (i) { polSetMask((MACH.mask || 0) ^ (1 << i)); }
+
+function polPreset (invert) { polSetMask(invert ? 0x0f : 0x00); }
+
+async function polSave () {
+  if (S.state !== 'Idle') { $('#polstatus').textContent = 'machine must be Idle'; return; }
+  const mask = MACH.mask || 0;
+  const r = await cmdLine('$5=' + mask);
+  $('#polstatus').textContent = r && r.ok ? 'saved $5=' + mask + ' — check the indicators now' : 'save failed';
+}
+
+async function limitFlagsSave () {
+  const st = $('#flagstatus');
+  if (S.state !== 'Idle') { st.textContent = 'machine must be Idle'; return; }
+  const cmds = [
+    '$21=' + ($('#chk21').checked ? 1 : 0),
+    '$20=' + ($('#chk20').checked ? 1 : 0),
+    '$22=' + ($('#chk22').checked ? 1 : 0)
+  ];
+  let ok = 0;
+  for (const c of cmds) { const r = await cmdLine(c); if (r && r.ok) ok++; await sleep(120); }
+  st.textContent = 'saved ' + ok + '/3: ' + cmds.join(' ');
+}
+
+const CARD_NODES = {};
+
+function mountCard (tpl, slotId) {
+  const slot = document.getElementById(slotId);
+  if (!slot) return;
+  if (!CARD_NODES[tpl]) {
+    const t = document.getElementById('tpl-' + tpl);
+    if (!t) return;
+    CARD_NODES[tpl] = document.importNode(t.content, true).firstElementChild;
+  }
+  if (CARD_NODES[tpl].parentNode)
+    CARD_NODES[tpl].parentNode.removeChild(CARD_NODES[tpl]);
+  slot.innerHTML = '';
+  slot.appendChild(CARD_NODES[tpl]);
+}
+
+function mountMachineCards () {
+  mountCard('limits', 'slot-limits');
+  mountCard('probe', 'slot-probe');
+  mountCard('homing', 'slot-homing');
+}
+
+function machineLoad () {
+  api('/api/settings').then(s => {
+    const el = $('#mtables');
+    if (el) {
+      let html = '<table class="mtable"><tr><th></th>' +
+        '<th>Steps/mm <button class="iBtn" onclick="showHelp(\'params\')">i</button></th>' +
+        '<th>Rate <button class="iBtn" onclick="showHelp(\'params\')">i</button></th>' +
+        '<th>Accel <button class="iBtn" onclick="showHelp(\'params\')">i</button></th>' +
+        '<th>Travel <button class="iBtn" onclick="showHelp(\'params\')">i</button></th>' +
+        '<th>Dir inv <button class="iBtn" onclick="showHelp(\'params\')">i</button></th></tr>';
+      s.axes.forEach((a, i) => {
+        html += `<tr><td class="n">${a.letter}</td>` +
+          `<td><input class="minp" data-sid="${100+i}" data-orig="${(a.steps||0)}" value="${(a.steps||0).toFixed(3)}"></td>` +
+          `<td><input class="minp" data-sid="${110+i}" data-orig="${(a.rate||0)}" value="${(a.rate||0).toFixed(0)}"></td>` +
+          `<td><input class="minp" data-sid="${120+i}" data-orig="${((a.accel||0)/3600)}" value="${((a.accel||0)/3600).toFixed(1)}"></td>` +
+          `<td><input class="minp" data-sid="${130+i}" data-orig="${Math.abs(a.travel||0)}" value="${Math.abs(a.travel||0).toFixed(1)}"></td>` +
+          `<td>${a.dir_inv ? 'yes' : 'no'}</td></tr>`;
+      });
+      html += '</table>';
+      el.innerHTML = html;
+    }
+
+    MACH.limits = s.limits || { invert: 0, hard: 0, soft: 0, homing: 0 };
+    dirSetMask(s.dir_invert || 0);
+    polSetMask(MACH.limits.invert || 0);
+    const hc = s.homingcfg || { dir: 0, pulloff: 1.0 };
+    HOMECFG.pulloff = hc.pulloff;
+    homingSetMask(hc.dir || 0);
+    if ($('#hpull')) $('#hpull').value = (hc.pulloff || 1).toFixed(1);
+    if ($('#hseek') && hc.seek) $('#hseek').value = Math.round(hc.seek);
+    if ($('#hfeed') && hc.feed) $('#hfeed').value = Math.round(hc.feed);
+    syncFlags();
+  }).catch(e => { const el = $('#mtables'); if (el) el.textContent = 'settings unavailable'; });
+}
+
+async function machineSave () {
+  const st = $('#mstatus');
+  if (S.state !== 'Idle') { st.textContent = 'machine must be Idle to change settings'; return; }
+
+  const sends = [];
+  document.querySelectorAll('.minp').forEach(inp => {
+    const v = parseFloat(inp.value);
+    const orig = parseFloat(inp.dataset.orig);
+    if (!isFinite(v)) return;
+    const id = parseInt(inp.dataset.sid, 10);
+    const axis = id % 10;
+    const limits = (id >= 100 && id < 110) ? [0.1, 10000] :
+                   (id < 120) ? [1, 200000] :
+                   (id < 130) ? [1, 2000] : [0.1, 10000];
+    if (v < limits[0] || v > limits[1]) { st.textContent = `value out of range for $${id}`; return; }
+    if (Math.abs(v - orig) > 1e-6) sends.push(`$${id}=${v}`);
+  });
+
+  if (!sends.length) { st.textContent = 'no changes'; return; }
+
+  const btn = $('#msave');
+  setBusy(btn, true, 'Saving…');
+  let ok = 0;
+  for (const cmd of sends) {
+    const r = await cmdLine(cmd);
+    if (r && r.ok) ok++;
+    await sleep(120);
+  }
+  setBusy(btn, false);
+  st.textContent = `saved ${ok}/${sends.length} setting(s): ${sends.join(', ')}`;
+  setTimeout(machineLoad, 600);
+}
+
+// ---------------------------------------------------------------------------
+// PCB wizard: steps with Back / Skip / Continue- Next / Cancel
+// ---------------------------------------------------------------------------
+const PCB_STEPS = ['Project', 'Setup', 'Flatten', 'Heightmap', 'Run'];
+let WIZ = { step: 1, project: null, skipped: {}, hmPoll: null };
+
+function wizReset () {
+  if (WIZ.hmPoll) { clearInterval(WIZ.hmPoll); WIZ.hmPoll = null; }
+  WIZ = { step: 1, project: null, skipped: {}, hmPoll: null };
+}
+
+function wizCancel () {
+  if (!confirm('Cancel the PCB wizard? Nothing will be run.')) return;
+  wizReset();
+  go('wizards');
+}
+
+function wizBack () { if (WIZ.step > 1) { WIZ.step--; wizRender(); } }
+
+function wizSkip () {
+  if (!wizCanSkip()) return;
+  WIZ.skipped[WIZ.step] = true;
+  WIZ.step = Math.min(5, WIZ.step + 1);
+  wizRender();
+}
+
+function wizCanSkip () { return WIZ.step === 3 || WIZ.step === 4; }
+
+async function wizNext () {
+  const step = WIZ.step;
+
+  if (step === 1) {
+    if (!WIZ.project) return;
+    WIZ.step = 2;
+  } else if (step === 2) {
+    WIZ.step = 3;
+  } else if (step === 3) {
+    WIZ.step = 4;                      // flatten execution arrives with P2
+  } else if (step === 4) {
+    if (WIZ.skipped[4]) { WIZ.step = 5; wizRender(); return; }
+    const hm = await api('/api/heightmap');
+    if (hm.state === 'ready') { WIZ.step = 5; wizRender(); return; }
+    const r = await api('/api/heightmap?action=probe', {method:'POST'});
+    if (!r.ok) { alert('Cannot start probing: ' + (r.msg || 'machine not idle?')); return; }
+    setBusy($('#wiznext'), true, 'Probing…');
+    wizWatchHeightmap();
+  } else if (step === 5) {
+    alert('Job streaming arrives with P2 — the sequence is validated but cannot run yet.');
+    return;
+  }
+
+  wizRender();
+}
+
+function wizWatchHeightmap () {
+  if (WIZ.hmPoll) clearInterval(WIZ.hmPoll);
+  WIZ.hmPoll = setInterval(async () => {
+    try {
+      const hm = await api('/api/heightmap');
+      const b = $('#wizbody');
+      if (b) b.innerHTML = `<div class="card"><h3>Heightmap</h3><div class="small">Probing… state: <b>${hm.state}</b></div></div>`;
+      if (hm.state === 'ready' || hm.state === 'invalid') {
+        clearInterval(WIZ.hmPoll); WIZ.hmPoll = null;
+        setBusy($('#wiznext'), false);
+        wizRender();
+      }
+    } catch (e) {}
+  }, 2000);
+}
+
+async function wizStep1 () {
+  const b = $('#wizbody');
+  b.innerHTML = '<div class="card"><h3>Select the project folder on the SD card</h3><div class="small loading">loading…</div></div>';
+  let folders = [];
+  try {
+    const r = await api('/api/files?path=/');
+    folders = r.files.filter(f => f.d && f.n !== 'littlefs');
+  } catch (e) {}
+  let html = '<div class="card"><h3>Select the project folder on the SD card</h3>';
+  if (!folders.length) html += '<div class="small">No folders found on the SD card.</div>';
+  folders.forEach(f => {
+    const sel = WIZ.project === f.n ? ' sel' : '';
+    html += `<div class="folder${sel}" onclick="wizSelect('${f.n.replace(/'/g, "\\\\'")}')">▸ ${f.n}<small>folder</small></div>`;
+  });
+  html += '<div class="row" style="margin-top:10px"><button onclick="go(\'files\')">Open Files</button></div></div>';
+  if (WIZ.project) {
+    html += `<div class="card"><h3>Files in /${WIZ.project}</h3><div class="small" id="wizfiles">loading…</div></div>`;
+  }
+  b.innerHTML = html;
+  if (WIZ.project) wizLoadFiles(WIZ.project);
+}
+
+async function wizLoadFiles (folder) {
+  try {
+    const r = await api('/api/files?path=' + encodeURIComponent('/' + folder));
+    const el = $('#wizfiles');
+    if (!el) return;
+    const names = r.files.filter(f => !f.d).map(f => f.n);
+    const want = ['top', 'bottom', 'drills', 'profile'];
+    el.innerHTML = want.map(w => {
+      const f = names.find(n => n.toLowerCase().startsWith(w));
+      return `<div>${f ? '✓' : '·'} ${w}.nc ${f ? '' : '<span class="muted">(missing)</span>'}</div>`;
+    }).join('');
+  } catch (e) {}
+}
+
+function wizSelect (name) { WIZ.project = name; wizRender(); }
+
+function wizStep2 () {
+  $('#wizbody').innerHTML = `
+   <div class="card"><h3>Setup the job</h3>
+    <div class="small">Home the machine and zero the work origin (X/Y on the PCB corner, Z on the surface).</div>
+    <div class="row" style="margin-top:10px">
+     <button onclick="cmdLine('$H')">Home</button>
+     <button onclick="zero('xy')">Zero XY</button>
+     <button onclick="zero('z')">Zero Z</button>
+     <button onclick="go('move')">Jog…</button>
+    </div></div>
+   <div class="card"><div class="small">Project: <b>/${WIZ.project || '?'}</b></div></div>`;
+}
+
+function wizStep3 () {
+  $('#wizbody').innerHTML = `
+   <div class="card"><h3>Flatten the spoil board (optional)</h3>
+    <div class="small">Flattening mills the spoil board flat so the PCB sits level. Not recommended to skip.<br>
+     <b>Not available yet:</b> the flatten routine is part of the P2 backend.</div>
+    <div class="row" style="margin-top:10px"><button disabled title="P2">Run flatten</button></div></div>`;
+}
+
+async function wizStep4 () {
+  let hm = { state: 'unknown' };
+  try { hm = await api('/api/heightmap'); } catch (e) {}
+  const skipped = WIZ.skipped[4] ? '<div class="small" style="color:var(--warn)">Skipped — the job will run without height compensation.</div>' : '';
+  $('#wizbody').innerHTML = `
+   <div class="card"><h3>Probe the PCB surface?</h3>
+    <div class="small">Install the Z endmill and connect the probe wires to the controller and the PCB before continuing.
+     If the PCB surface is good enough you can skip this step (not recommended).</div>
+    ${skipped}
+    <div class="small" style="margin-top:8px">Heightmap state: <b>${hm.state}</b>${hm.n ? ' · ' + hm.n + '×' + hm.n : ''}</div>
+    <div class="row" style="margin-top:10px"><button onclick="go('heightmap','wizard-pcb')">Open heightmap page</button></div></div>`;
+}
+
+function wizStep5 () {
+  $('#wizbody').innerHTML = `
+   <div class="card"><h3>Run</h3>
+    <div class="small">Sequence: top → flip → bottom → drills → profile.<br>
+     Heightmap: ${WIZ.skipped[4] ? 'skipped' : 'applied if probed'}.</div>
+    <div class="small" style="margin-top:8px"><b>Job streaming arrives with P2.</b> This step will start the job when the
+     streamer is in place.</div>
+    <div class="row" style="margin-top:10px"><button onclick="go('console')">Open console</button></div></div>`;
+}
+
+function wizRender () {
+  if (WIZ.hmPoll) { clearInterval(WIZ.hmPoll); WIZ.hmPoll = null; }
+  const st = $('#wizsteps');
+  if (st) {
+    st.innerHTML = '';
+    PCB_STEPS.forEach((t, i) => {
+      const d = document.createElement('div');
+      d.textContent = (i + 1) + ' ' + t;
+      if (i + 1 < WIZ.step) d.className = 'done';
+      if (i + 1 === WIZ.step) d.className = 'on';
+      if (i + 1 < WIZ.step) d.onclick = () => { WIZ.step = i + 1; wizRender(); };
+      st.appendChild(d);
+    });
+  }
+  if (WIZ.step === 1) wizStep1();
+  else if (WIZ.step === 2) wizStep2();
+  else if (WIZ.step === 3) wizStep3();
+  else if (WIZ.step === 4) wizStep4();
+  else wizStep5();
+
+  const back = $('#wizback'), skip = $('#wizskip'), next = $('#wiznext');
+  if (back) back.disabled = WIZ.step === 1;
+  if (skip) { skip.style.display = wizCanSkip() ? '' : 'none'; }
+  if (next) {
+    next.textContent = WIZ.step === 5 ? 'Start job' : (WIZ.step === 4 && !WIZ.skipped[4] ? 'Probe →' : 'Continue →');
+    next.disabled = (WIZ.step === 1 && !WIZ.project) || WIZ.step === 5;
+  }
+}
+
+function parentRoute (name, from) {
+  if (name === 'main') return null;
+  if (name === 'wizard-pcb' || name === 'wizard-flat' || name === 'wizard-simple') return 'wizards';
+  if (name === 'heightmap') return from === 'wizard-pcb' ? 'wizard-pcb' : 'wizards';
+  if (name === 'wizards') return 'main';
+  if (name === 'settings-machine') return 'settings';
+  if (name === 'machine-setup' || name === 'calibration' || name === 'settings-view') return 'settings-machine';
+  if (name === 'firmware') return 'settings';
+  if (name === 'job') return 'main';
+  if (name === 'machine-menu') return 'settings';
+  return 'main';
+}
+
+// In-app navigation stack: Back returns to wherever you came from, in order,
+// falling back to the breadcrumb parent when there is no history (e.g. after
+// a page reload or when opening a deep link).
+let NAV_STACK = [];
+let CURRENT_ROUTE = null;
+let NAV_SUPPRESS = false;
+
+function routeKey (name, from) { return name + (from ? '?from=' + from : ''); }
+
+function crumbGo (target) {
+  // If the target is already in the history, pop back to it (like pressing
+  // Back) instead of pushing a duplicate entry.
+  let idx = -1;
+  for (let i = NAV_STACK.length - 1; i >= 0; i--) {
+    const key = NAV_STACK[i];
+    if (key === target || key.indexOf(target + '?') === 0) { idx = i; break; }
+  }
+  if (idx >= 0) {
+    NAV_STACK.length = idx;
+    NAV_SUPPRESS = true;
+    location.hash = '#/' + target;
+    return;
+  }
+  go(target);
+}
+
+function navBack () {
+  if (NAV_STACK.length) {
+    const target = NAV_STACK.pop();
+    NAV_SUPPRESS = true;
+    location.hash = '#/' + target;
+    return;
+  }
+  const r = parseRoute();
+  const parent = parentRoute(r.name, r.from);
+  if (parent) go(parent);
+}
+
+function trackRoute (name, from) {
+  const key = routeKey(name, from);
+  if (NAV_SUPPRESS) {
+    NAV_SUPPRESS = false;
+    CURRENT_ROUTE = key;
+    return;
+  }
+  // Browser/Android Back lands on the previous route: pop instead of push.
+  if (NAV_STACK.length && NAV_STACK[NAV_STACK.length - 1] === key) {
+    NAV_STACK.pop();
+    CURRENT_ROUTE = key;
+    return;
+  }
+  if (CURRENT_ROUTE && CURRENT_ROUTE !== key) {
+    NAV_STACK.push(CURRENT_ROUTE);
+    if (NAV_STACK.length > 50) NAV_STACK.shift();
+  }
+  CURRENT_ROUTE = key;
+}
+
+function parseRoute () {
+  const raw = location.hash.replace('#/', '') || 'main';
+  const qi = raw.indexOf('?');
+  const name = qi < 0 ? raw : raw.slice(0, qi);
+  const params = new URLSearchParams(qi < 0 ? '' : raw.slice(qi + 1));
+  return { name: name, from: params.get('from') || '' };
+}
+
+function showPage(name, from) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  const el = $('#p-' + name) || $('#p-main');
+  el.classList.add('on');
+  document.querySelectorAll('.nav a').forEach(a => a.classList.toggle('on', a.dataset.p === name || ((name.startsWith('wizard-') || name === 'heightmap') && a.dataset.p === 'wizards')));
+  if (name === 'files') { filesLoad(); sdMount(); }
+  if (name === 'heightmap') { hmLoad(); }
+  if (name === 'wizard-pcb') wizRender();
+  if (name === 'firmware') { fwInfo(); aboutInfo(); }
+  if (name === 'settings-machine') { mountMachineCards(); machineLoad(); }
+  if (name === 'machine-setup' || name === 'calibration' || name === 'settings-view') { /* no extra load */ }
+  if (name === 'machine-setup') setupWRender();
+  if (name === 'calibration') calRender();
+  if (name === 'settings-view') loadAllSettings();
+  const nb = $('#navback');
+  if (nb) nb.classList.toggle('disabled', NAV_STACK.length === 0 && parentRoute(name, from) === null);
+  const fb = $('#fwbuild');
+  if (fb && fb.textContent.indexOf('built') !== 0) fb.textContent = 'built ' + fb.textContent;
+}
+
+window.addEventListener('hashchange', () => {
+  const r = parseRoute();
+  trackRoute(r.name, r.from);
+  showPage(r.name, r.from);
+});
+
+function dismissSetup () {
+  try { sessionStorage.setItem('setupdismiss', '1'); } catch (e) {}
+  const el = $('#setupwarn'); if (el) el.style.display = 'none';
+}
+
+async function checkSetup () {
+  try {
+    if (sessionStorage.getItem('setupdismiss')) return;
+    const st = await api('/api/settings');
+    const defaults = st.axes.filter(a => Math.abs(a.steps - 250) < 0.001).map(a => a.letter);
+    const travelDefault = st.axes.filter(a => Math.abs(Math.abs(a.travel) - 200) < 0.001).map(a => a.letter);
+    const msgs = [];
+    if (defaults.length) msgs.push('<b>steps/mm not calibrated</b> (' + defaults.join(',') + ' = 250 default) — measure a 100 mm move and set $100-$103');
+    if (travelDefault.length) msgs.push('<b>travel still default</b> (200 mm) — set $130-$133 to the real machine limits');
+    const el = $('#setupwarn');
+    if (msgs.length && el) { $('#setupwarntxt').innerHTML = msgs.join('<br>'); el.style.display = ''; }
+  } catch (e) {}
+}
+
+async function loadInfo () {
+  try {
+    const i = await api('/api/info');
+    const el = $('#verline');
+    if (el) el.textContent = `v${i.version} · ${i.branch || ""}@${i.commit || ""} ${i.dirty || ""} · built ${i.built || (i.date + ' ' + i.time)}`;
+  } catch (e) {}
+}
+
+function render() {
+  const st = $('#st');
+  st.textContent = S.state || '…';
+  st.className = 'pill ' + ((S.state === 'Idle') ? 'ok' : (S.state === 'Alarm' || S.state === 'Door') ? 'err' : 'warn');
+  $('#x').textContent = (S.x ?? 0).toFixed(3);
+  $('#y').textContent = (S.y ?? 0).toFixed(3);
+  $('#z').textContent = (S.z ?? 0).toFixed(3);
+  $('#a').textContent = (S.a ?? 0).toFixed(3);
+  const pins = [];
+  if (S.probe) pins.push('Probe');
+  if (S.door) pins.push('Door');
+  if (S.estop) pins.push('E-Stop');
+  const pn = $('#pn');
+  if (pins.length) { pn.style.display = ''; pn.textContent = pins.join(' · '); pn.className = 'pill warn'; }
+  else pn.style.display = 'none';
+  $('#jobline').textContent = S.spindle ? 'spindle on' : 'no job running';
+
+  ['x','y','z','a'].forEach((ax, i) => {
+    const el = $('#lim' + ax);
+    if (el) el.classList.toggle('on', ((S.limits || 0) >> i) & 1);
+    const se = $('#lims' + ax);
+    if (se) se.classList.toggle('on', ((S.limits_seen || 0) >> i) & 1);
+  });
+  const lm = $('#limmask');
+  if (lm) lm.textContent = (S.limits || 0) + ((S.limits_seen || 0) ? ' (seen ' + S.limits_seen + ')' : '');
+  const lt = $('#limtxt');
+  if (lt) {
+    const on = ['X','Y','Z','A'].filter((n, i) => ((S.limits || 0) >> i) & 1);
+    lt.textContent = on.length ? on.join(', ') : 'none';
+  }
+  const pi = $('#probeind');
+  if (pi) pi.classList.toggle('on', !!S.probe);
+  const pt = $('#probetxt');
+  if (pt) pt.textContent = S.probe ? 'triggered' : 'not triggered';
+
+  const ji = $('#jobinfo');
+  if (ji) ji.textContent = (S.state === 'Run' || S.state === 'Hold') ? ('state: ' + S.state) : 'No job running — job streaming (P2) is not implemented yet.';
+
+  const ab = $('#alarmbar');
+  if (ab) ab.style.display = S.state === 'Alarm' ? '' : 'none';
+
+  updateAlarm();
+  document.querySelectorAll('[data-need-idle]').forEach(b => b.disabled = S.state !== 'Idle');
+  document.querySelectorAll('[data-jog]').forEach(b => {
+    if (!b.dataset.busy) b.disabled = !(S.state === 'Idle' || S.state === 'Jog');
+  });
+}
+
+async function poll() {
+  try {
+    const onConsole = (parseRoute().name === 'console');
+    const r = await api('/api/poll' + (onConsole ? '?console=1' : ''));
+    if (r) {
+      S = r; render();
+      if (r.out) {
+        TERM += r.out;
+        if (TERM.length > 20000) TERM = TERM.slice(-16000);
+        const t = $('#term');
+        if (t) { t.textContent = TERM; t.scrollTop = t.scrollHeight; }
+      }
+    }
+  } catch (e) {}
+}
+setInterval(poll, 700); poll();
+
+// --- busy/disabled state with spinner -------------------------------------
+function setBusy (el, on, label) {
+  if (!el) return;
+  if (on) {
+    if (el.dataset.label === undefined) el.dataset.label = el.innerHTML;
+    el.disabled = true;
+    el.innerHTML = '<span class="spin"></span>' + (label || 'Working…');
+  } else {
+    el.disabled = false;
+    if (el.dataset.label !== undefined) { el.innerHTML = el.dataset.label; delete el.dataset.label; }
+  }
+}
+
+// --- hold-to-jog: steps <= 1 mm repeat while the button is held ------------
+function bindJog () {
+  document.querySelectorAll('[data-jog]').forEach(btn => {
+    if (btn.dataset.bound) return;
+    btn.dataset.bound = '1';
+    const parts = btn.dataset.jog.split(':');
+    const axis = parts[0], dir = parseFloat(parts[1]);
+    let timer = null, active = false;
+
+    const fire = () => {
+      const step = parseFloat($(axis === 'z' ? '#zstep' : '#xystep').value);
+      if (axis === 'z') api(`/api/jog?axis=z&d=${dir*step}&feed=${feedVal('zfeed',300)}`);
+      else api(`/api/jog?axis=${axis}&d=${dir*step}&feed=${feedVal('xyfeed',800)}`);
+    };
+    const start = (e) => {
+      e.preventDefault();
+      if (active) return;
+      active = true;
+      fire();
+      const step = parseFloat($(axis === 'z' ? '#zstep' : '#xystep').value);
+      if (step <= 1) timer = setInterval(fire, 200);   // continuous for fine steps
+    };
+    const stop = () => { active = false; if (timer) { clearInterval(timer); timer = null; } };
+
+    btn.addEventListener('pointerdown', start);
+    ['pointerup', 'pointercancel', 'pointerleave', 'lostpointercapture'].forEach(ev =>
+      btn.addEventListener(ev, stop));
+    btn.addEventListener('contextmenu', e => e.preventDefault());
+  });
+}
+bindJog();
+loadFeeds();
+document.addEventListener('click', e => {
+  const b = e.target.closest('button.inv[data-pol]');
+  if (b) { polToggle(parseInt(b.dataset.pol, 10)); return; }
+  const d = e.target.closest('#dirrow button[data-dir]');
+  if (d) { dirSetMask((MACH.dir || 0) ^ (1 << parseInt(d.dataset.dir, 10))); return; }
+  const t = e.target.closest('button[data-test]');
+  if (t) { dirTest(t.dataset.test); return; }
+  const h = e.target.closest('#homedir button[data-hdir]');
+  if (h) homingSetMask((HOMECFG.dir || 0) ^ (1 << parseInt(h.dataset.hdir, 10)));
+});
+
+async function cmdLine(line) { try { return await api('/api/command', {method:'POST', body:line}); } catch(e){ return {ok:false}; } }
+async function rt(hex) { try { return await api('/api/realtime?c=' + hex); } catch(e){ return {ok:false}; } }
+function stepVal(id) { return parseFloat($('#' + id).value); }
+
+function feedVal (id, fallback) {
+  const el = $('#' + id);
+  const v = el ? parseFloat(el.value) : NaN;
+  return isFinite(v) && v >= 50 && v <= 10000 ? v : fallback;
+}
+
+function saveFeeds () {
+  try {
+    localStorage.setItem('xyfeed', $('#xyfeed').value);
+    localStorage.setItem('zfeed', $('#zfeed').value);
+  } catch (e) {}
+}
+
+function loadFeeds () {
+  try {
+    if (localStorage.getItem('xyfeed')) $('#xyfeed').value = localStorage.getItem('xyfeed');
+    if (localStorage.getItem('zfeed')) $('#zfeed').value = localStorage.getItem('zfeed');
+  } catch (e) {}
+  ['xyfeed','zfeed'].forEach(id => {
+    const el = $('#' + id);
+    if (el) el.addEventListener('change', saveFeeds);
+  });
+}
+
+async function rawMonitor () {
+  const log = $('#rawlog'), hint = $('#rawhint');
+  log.style.display = 'block'; log.textContent = '';
+  hint.textContent = 'monitoring… press X, then Y, then Z switches';
+  let last = {};
+  const t0 = Date.now();
+  while (Date.now() - t0 < 15000) {
+    try {
+      const r = await api('/api/pins/raw');
+      r.pins.forEach(p => {
+        if (last[p.n] !== undefined && last[p.n] !== p.l)
+          log.textContent += `${new Date().toLocaleTimeString()}  ${p.n} (GPIO${p.gpio}) ${last[p.n]} → ${p.l}\n`;
+        last[p.n] = p.l;
+      });
+      log.scrollTop = log.scrollHeight;
+    } catch (e) {}
+    await sleep(300);
+  }
+  hint.textContent = 'done — levels: ' + Object.keys(last).map(n => n + '=' + last[n]).join(' ');
+}
+
+async function clearLimits () {
+  await api('/api/limits/clear', {method:'POST'});
+  setTimeout(poll, 300);
+}
+
+async function unlockAlarm () {
+  const r = await cmdLine('$X');
+  if (!r || !r.ok) alert('Unlock was rejected — is the controller idle?');
+  setTimeout(() => poll(), 300);
+}
+function jog(axis, dir) { api(`/api/jog?axis=${axis}&d=${dir*stepVal('xystep')}&feed=${feedVal('xyfeed',800)}`); }
+function jogZ(dir) { api(`/api/jog?axis=z&d=${dir*stepVal('zstep')}&feed=${feedVal('zfeed',300)}`); }
+function zero(axis) { api('/api/zero?axis=' + axis); }
+
+async function sdMount() {
+  const btn = document.querySelector('#p-files button[onclick="filesLoad()"]');
+  const mountBtn = [...document.querySelectorAll('#p-files button')].find(b => b.textContent.includes('Mount SD'));
+  setBusy(mountBtn, true, 'Mounting…');
+  await api('/api/sd/mount', {method:'POST'});
+  setTimeout(() => { setBusy(mountBtn, false); filesLoad(); }, 1200);
+}
+
+async function filesLoad() {
+  let path = '/';
+  const fpath = $('#fpath').textContent || '/';
+  try {
+    const r = await api('/api/files?path=' + encodeURIComponent(fpath));
+    const ul = $('#flist'); ul.innerHTML = '';
+    if (fpath !== '/') {
+      const li = document.createElement('li');
+      li.innerHTML = '<span class="nm">..</span>';
+      li.onclick = () => { $('#fpath').textContent = fpath.replace(/\/[^/]+$/, '') || '/'; filesLoad(); };
+      ul.appendChild(li);
+    }
+    r.files.forEach(f => {
+      const li = document.createElement('li');
+      const n = document.createElement('span'); n.className = 'nm'; n.textContent = (f.d ? '▸ ' : '') + f.n;
+      const s = document.createElement('span'); s.className = 'sz'; s.textContent = f.d ? '' : (f.s/1024).toFixed(1) + ' KB';
+      li.appendChild(n); li.appendChild(s);
+      if (f.d) li.onclick = () => { $('#fpath').textContent = (fpath === '/' ? '' : fpath) + '/' + f.n; filesLoad(); };
+      ul.appendChild(li);
+    });
+    if (!r.files.length) ul.innerHTML = '<li class="muted">empty (no SD card?)</li>';
+  } catch (e) { $('#flist').innerHTML = '<li class="muted">error</li>'; }
+}
+
+async function uploadFile() {
+  const f = $('#fup').files[0]; if (!f) return;
+  const fpath = $('#fpath').textContent || '/';
+  const btn = document.querySelector('#p-files .p');
+  setBusy(btn, true, 'Uploading…');
+  await fetch('/api/files?path=' + encodeURIComponent(fpath + '/' + f.name), {method:'POST', body:f});
+  setBusy(btn, false);
+  filesLoad();
+}
+
+async function pcbFolders() {
+  try {
+    const r = await api('/api/files?path=/');
+    const ul = $('#pcbfolders'); ul.innerHTML = '';
+    r.files.filter(f => f.d).forEach(f => {
+      const li = document.createElement('li');
+      li.innerHTML = '<span class="nm">▸ ' + f.n + '</span>';
+      li.onclick = () => { go('heightmap'); };
+      ul.appendChild(li);
+    });
+    if (!ul.children.length) ul.innerHTML = '<li class="muted">no folders on SD</li>';
+  } catch (e) {}
+}
+
+async function uploadPcb() {
+  const files = $('#pcbup').files;
+  for (const f of files) {
+    await fetch('/api/files?path=' + encodeURIComponent('/' + f.name), {method:'POST', body:f});
+  }
+  pcbFolders();
+}
+
+function hmView(v) {
+  $('#hm3dwrap').style.display = v === '3d' ? '' : 'none';
+  $('#hm2dwrap').style.display = v === '2d' ? '' : 'none';
+  $('#tab3d').classList.toggle('on', v === '3d');
+  $('#tab2d').classList.toggle('on', v === '2d');
+}
+
+function color(t) {
+  t = Math.max(0, Math.min(1, t));
+  const s = [[40,90,220],[40,190,230],[70,200,110],[240,210,60],[240,90,60]];
+  const u = t * (s.length - 1), i = Math.floor(u), f = u - i, a = s[i], b = s[Math.min(i + 1, s.length - 1)];
+  return `rgb(${a[0]+(b[0]-a[0])*f|0},${a[1]+(b[1]-a[1])*f|0},${a[2]+(b[2]-a[2])*f|0})`;
+}
+
+function hmRender() {
+  const st = $('#hmstate');
+  if (!HM || !HM.z) { st.textContent = (HM && HM.state) || 'no map'; $('#hmmatrix').innerHTML = ''; return; }
+  const n = HM.n, z = HM.z;
+  let mn = 1e9, mx = -1e9;
+  z.forEach(v => { mn = Math.min(mn, v); mx = Math.max(mx, v); });
+  st.textContent = `n=${n} · delta ${(mx - mn).toFixed(3)} mm`;
+  const grid = $('#hmmatrix');
+  grid.style.gridTemplateColumns = `repeat(${n},1fr)`;
+  grid.innerHTML = '';
+  for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
+    const v = z[i * n + j], t = (v - mn) / ((mx - mn) || 1);
+    const d = document.createElement('div');
+    d.style.background = color(t);
+    d.textContent = (v >= 0 ? '+' : '') + v.toFixed(2);
+    grid.appendChild(d);
+  }
+  const c = $('#hm3d'), ctx = c.getContext('2d');
+  ctx.clearRect(0, 0, c.width, c.height);
+  const S = 26, ox = c.width / 2, oy = c.height * 0.72, sz = 220;
+  const proj = (x, y, v) => [ox + (x - (n - 1) / 2) * S - (y - (n - 1) / 2) * S * 0.55,
+                             oy + ((x - (n - 1) / 2) * S * 0.32 + (y - (n - 1) / 2) * S * 0.52) - v * sz];
+  for (let i = 0; i < n - 1; i++) for (let j = 0; j < n - 1; j++) {
+    const v0 = z[i * n + j], v1 = z[i * n + j + 1], v2 = z[(i + 1) * n + j + 1], v3 = z[(i + 1) * n + j];
+    const pts = [proj(i, j, v0), proj(i, j + 1, v1), proj(i + 1, j + 1, v2), proj(i + 1, j, v3)];
+    ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]);
+    for (let k = 1; k < 4; k++) ctx.lineTo(pts[k][0], pts[k][1]);
+    ctx.closePath();
+    ctx.fillStyle = color(((v0 + v1 + v2 + v3) / 4 - mn) / ((mx - mn) || 1));
+    ctx.globalAlpha = 0.88; ctx.fill(); ctx.globalAlpha = 1;
+    ctx.strokeStyle = '#0b1016'; ctx.lineWidth = 1; ctx.stroke();
+  }
+}
+
+async function hmLoad() { try { HM = await api('/api/heightmap'); hmRender(); } catch (e) {} }
+async function hmAction (a) {
+  if (a === 'probe') {
+    const btn = $('#hmprobe');
+    const r = await api('/api/heightmap?action=probe', {method:'POST'});
+    if (!r.ok) { alert('Cannot start probing: ' + (r.msg || 'machine not idle?')); return; }
+    setBusy(btn, true, 'Probing…');
+    const t0 = Date.now();
+    const poll = setInterval(async () => {
+      try {
+        const hm = await api('/api/heightmap');
+        if (hm.state !== 'probing' && hm.state !== 'unknown' || Date.now() - t0 > 20*60*1000) {
+          clearInterval(poll);
+          setBusy(btn, false);
+          hmLoad();
+        }
+      } catch (e) {}
+    }, 1500);
+    return;
+  }
+  await api('/api/heightmap?action=' + a, {method:'POST'});
+  setTimeout(hmLoad, 500);
+}
+
+async function sendCmd() {
+  const el = $('#cmd'), line = el.value.trim();
+  if (!line) return;
+  el.value = '';
+  TERM += '> ' + line + '\n';
+  const t = $('#term'); t.textContent = TERM; t.scrollTop = t.scrollHeight;
+  await cmdLine(line);
+}
+
+async function aboutInfo () {
+  try {
+    const i = await api('/api/info');
+    const up = Math.floor((i.uptime || 0) / 1000);
+    const upStr = `${Math.floor(up/3600)}h ${Math.floor((up%3600)/60)}m ${up%60}s`;
+    $('#about').innerHTML =
+      `<div>Board: <b>${i.board || '?'}</b></div>` +
+      `<div>Firmware: <b>${i.version}</b> (${i.branch}@${i.commit}${i.dirty ? ' ' + i.dirty : ''})</div>` +
+      `<div>grblHAL core: <b>${i.core || '?'}</b> · ESP-IDF ${i.idf} · API ${i.api}</div>` +
+      `<div>Built: <b>${i.built || ((i.date || '') + ' ' + (i.time || ''))}</b></div>` +
+      `<div>Slot: ${i.slot} · state ${i.ota_state} · free heap ${Math.round((i.free_heap||0)/1024)} KB · uptime ${upStr}</div>`;
+  } catch (e) { $('#about').textContent = 'info unavailable'; }
+}
+
+async function fwInfo() {
+  try {
+    const r = await api('/api/fw/status');
+    const fb = r.fallback || {};
+    $('#fwinfo').innerHTML = `running <b>${r.running}</b> · ${r.version} · state ${r.state}<br>` +
+      `fallback <b>${fb.label || '?'}</b> · ${fb.version || '?'} · ${fb.date || ''} · state ${fb.state}`;
+  } catch (e) { $('#fwinfo').textContent = 'firmware endpoint unavailable'; }
+}
+
+async function fwRollback() {
+  if (!confirm('Roll back to the previous firmware slot?')) return;
+  const r = await api('/api/fw/rollback', {method:'POST'});
+  alert(JSON.stringify(r));
+}
+
+async function fwUpload() {
+  const f = $('#fwbin').files[0], pw = $('#fwpw').value;
+  if (!f) return;
+  const btn = document.querySelector('#p-settings .p');
+  setBusy(btn, true, 'Uploading…');
+  const r = await fetch('/api/fw', {method:'POST', body:f, headers:{'X-OTA-Password': pw}}).then(r => r.text()).catch(e => 'error: ' + e);
+  setBusy(btn, false);
+  alert(r);
+}
+
+{ const r = parseRoute(); CURRENT_ROUTE = routeKey(r.name, r.from); showPage(r.name, r.from); }
+loadInfo();
+checkSetup();
+</script>
+</body></html>

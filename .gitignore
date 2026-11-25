@@ -33,3 +33,10 @@ build
 
 .vscode/settings.json
 .vscode/c_cpp_properties.json
+
+# local artifacts
+backups/
+sdkconfig.generic_s3
+
+# local secrets
+main/ota_secret.h

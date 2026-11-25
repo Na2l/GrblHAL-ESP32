@@ -1,0 +1,17 @@
+diff --git a/ftpd.c b/ftpd.c
+index b1b4e18..1453562 100644
+--- a/ftpd.c
++++ b/ftpd.c
+@@ -1431,7 +1431,11 @@ FLASHMEM bool ftpd_init (uint16_t port)
+         vfs.on_unmount = onUnmount;
+ 
+ #if FS_ENABLE & FS_SDCARD
+-        sdcard_getfs(); // try to mount SD card
++        // Do NOT mount the SD card here: ftpd_init() can be called from the
++        // WiFi/IP event context while the SD startup mount is still pending,
++        // and a concurrent f_mount()/diskio registration crashes.
++        // The SD card is mounted by sdcard_auto_mount() at startup, by $FM,
++        // or when the card is detected; FTP picks mounts up via vfs.on_mount.
+ #endif
+ 
+         fs_mounted = ftp_check_mounts();

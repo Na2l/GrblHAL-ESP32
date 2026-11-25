@@ -1,0 +1,116 @@
+<!doctype html><html><head><meta charset="utf-8"><title>DLC32 UI v5 — legacy wizard icons</title>
+<style>
+:root{--bg:#0f1419;--panel:#171f27;--panel2:#1e2933;--line:#2b3742;--txt:#e6edf3;--dim:#8b98a5;--acc:#4f9cf9;--ok:#3fb950;--warn:#d29922;--err:#f85149;--grn:#238636}
+*{box-sizing:border-box}body{margin:0;background:#0a0e12;color:var(--txt);font:13px/1.45 -apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding:22px;max-width:1380px;margin:0 auto}
+.screen{background:var(--bg);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.screen h2{margin:0;padding:10px 14px;background:var(--panel);border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--dim)}
+.status{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--panel2);border-bottom:1px solid var(--line);font-size:11px}
+.pill{padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;background:rgba(63,185,80,.15);color:var(--ok);border:1px solid rgba(63,185,80,.4)}
+.dro{margin-left:auto;display:flex;gap:7px;font-size:11px;color:var(--dim);font-variant-numeric:tabular-nums}.dro b{color:var(--txt)}
+h3{margin:0;padding:12px 14px 4px;font-size:14px}.sub{color:var(--dim);font-size:11px;padding:0 14px 10px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 12px 12px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 12px;min-height:96px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;text-align:center}
+.tile .ic{height:40px;display:flex;align-items:center}.tile .ic img{height:38px;image-rendering:pixelated;opacity:.95}
+.tile .gl{font-size:22px;opacity:.9}
+.tile b{font-size:12px;display:block;margin-top:4px}.tile span{font-size:10px;color:var(--dim);display:block}
+.tile.w{grid-column:span 3;flex-direction:row;align-items:center;justify-content:space-between;min-height:auto;text-align:left}
+.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:0 12px 10px}
+button{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:11px;font-weight:600}
+button.p{background:var(--acc);border-color:var(--acc);color:#05203f}button.ok{background:var(--grn);border-color:var(--grn)}button.d{background:#3d1417;border-color:#5c2026;color:#ff9a9a}
+.split{height:1px;background:var(--line);margin:10px 0}
+.nav{display:flex;justify-content:space-around;padding:9px 10px;background:var(--panel);border-top:1px solid var(--line);font-size:10px;color:var(--dim)}.nav .on{color:var(--acc);font-weight:700}
+.icongrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:6px 14px 16px}
+.icon{background:var(--panel);border:1px solid var(--line);border-radius:16px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.icon img{width:52px;height:52px;image-rendering:pixelated}
+.icon b{font-size:12px}
+.hmgrid{display:grid;grid-template-columns:1.05fr 1fr;gap:10px;padding:0 12px 10px}
+.surface{background:#0b1016;border:1px solid var(--line);border-radius:10px;padding:6px}
+.legend{display:flex;justify-content:space-between;font-size:9px;color:var(--dim);margin-top:5px}
+.matrix{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.matrix div{aspect-ratio:1;border-radius:5px;background:#22303c;display:flex;align-items:center;justify-content:center;font-size:10px;color:#c9d6e2}
+.matrix .p{background:rgba(79,156,249,.30)}.matrix .hi{background:rgba(210,153,34,.45);color:#fff}
+.matrix .cur{outline:2px solid var(--acc)}
+.mleg{display:flex;gap:12px;font-size:10px;color:var(--dim);margin-top:8px;flex-wrap:wrap}
+.sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+table{width:100%;border-collapse:collapse;font-size:11px}td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--dim);font-size:9px;text-transform:uppercase;letter-spacing:.5px}
+.small{color:var(--dim);font-size:10px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin:0 12px 10px;padding:10px 12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+</style></head><body>
+<div class="wrap">
+
+<!-- MAIN -->
+<div class="screen"><h2>1 · Main page — legacy wand icon on the Wizards tile</h2>
+<div class="status"><span class="pill">IDLE</span><span class="small">Pn XYZAS</span><span class="dro"><b>X</b>12.5 <b>Y</b>-4.2 <b>Z</b>0.0</span></div>
+<h3>CNC · DLC32 MAX</h3><div class="sub">192.168.1.100 · WiFi MyWiFi · v1.1f</div>
+<div class="tiles">
+ <div class="tile"><div class="ic gl">✥</div><div><b>Move</b><span>jog · home · zero</span></div></div>
+ <div class="tile"><div class="ic"><img src="webui-icons/wizard-wand.png" alt=""></div><div><b>Wizards</b><span>PCB · flat · simple</span></div></div>
+ <div class="tile"><div class="ic gl">▤</div><div><b>Files</b><span>SD projects</span></div></div>
+ <div class="tile"><div class="ic"><img src="webui-icons/probe.png" alt=""></div><div><b>Heightmap</b><span>probe · import</span></div></div>
+ <div class="tile"><div class="ic gl">≡</div><div><b>Job</b><span>progress · pause</span></div></div>
+ <div class="tile"><div class="ic gl">⌨</div><div><b>Console</b><span>terminal · logs</span></div></div>
+ <div class="tile w"><div><b>Settings</b><span>machine · WiFi · security · diagnostics · firmware</span></div><div class="small">›</div></div>
+ <div class="tile w"><div><b>Active job</b><span>/relay4/top.nc · 46 % · 07:12 left</span></div><div class="row"><button>Pause</button><button class="d">Stop</button></div></div>
+</div>
+<div class="nav"><span class="on">Home</span><span>Move</span><span>Wizards</span><span>Files</span><span>Settings</span></div></div>
+
+<!-- WIZARDS -->
+<div class="screen"><h2>2 · Wizards — the old firmware icons (PCB / Flatten / Simple)</h2>
+<div class="status"><span class="pill">IDLE</span><span class="small">no job</span></div>
+<h3>Wizards</h3><div class="sub">Choose a wizard</div>
+<div class="icongrid">
+ <div class="icon"><img src="webui-icons/wizard-pcb.png" alt=""><b>PCB</b></div>
+ <div class="icon"><img src="webui-icons/wizard-flatten.png" alt=""><b>Flatten</b></div>
+ <div class="icon"><img src="webui-icons/wizard-simple.png" alt=""><b>Simple job</b></div>
+ <div class="icon"><img src="webui-icons/probe.png" alt=""><b>Resume</b></div>
+ <div class="icon"><img src="webui-icons/home.png" alt=""><b>More</b></div>
+ <div class="icon" style="opacity:.45"><img src="webui-icons/wizard-wand.png" alt=""><b>⋯</b></div>
+</div>
+<div class="small" style="padding:0 14px 14px">Icons: PCB_BITMAP, FLATTEN_BITMAP, SIMPLE_BITMAP (1-bit, 50×50) — extracted from the old firmware, used as-is.</div>
+<div class="nav"><span>Home</span><span>Move</span><span class="on">Wizards</span><span>Files</span><span>Settings</span></div></div>
+
+<!-- HEIGHTMAP -->
+<div class="screen"><h2>3 · Heightmap — own page (probe / import / export)</h2>
+<div class="status"><span class="pill">IDLE</span><span class="small">map ready · delta 0.30 mm</span></div>
+<h3>Heightmap</h3><div class="sub">relay4 · 5×5 · 60 mm · relative to Z0</div>
+<div class="row" style="padding:0 12px 10px"><button class="ok">Probe</button><button>Import…</button><button>Export CSV</button><button>Clear</button><button style="margin-left:auto">Settings</button></div>
+<div class="hmgrid">
+ <div><div class="surface"><svg id="mesh" width="100%" viewBox="0 0 320 185"></svg><div class="legend"><span>−0.18 mm</span><span>0.00</span><span>+0.12 mm</span></div></div>
+  <div class="row" style="margin-top:8px"><button class="on">3D</button><button>Matrix</button></div></div>
+ <div><div class="matrix" id="mx"></div>
+  <div class="mleg"><span><i class="sw" style="background:rgba(79,156,249,.30)"></i>probed</span><span><i class="sw" style="background:rgba(210,153,34,.45)"></i>high</span><span><i class="sw" style="background:#22303c"></i>pending</span><span><i class="sw" style="border:2px solid var(--acc);background:#22303c"></i>current</span></div>
+  <div class="small" style="margin-top:8px">Z −0.18 … +0.12 · delta 0.30 mm</div></div>
+</div>
+<div class="box"><div class="small" style="margin-bottom:6px">Import map from SD</div>
+ <table><tr><th>File</th><th>Grid</th><th>Span</th><th>Delta</th><th></th></tr>
+ <tr><td>relay4_map.json</td><td>5×5</td><td>60 mm</td><td>0.30</td><td><button class="p">Import</button></td></tr>
+ <tr><td>bed_2026-11-20.csv</td><td>9×9</td><td>120 mm</td><td>0.52</td><td><button>Import</button></td></tr></table></div>
+<div class="nav"><span>Home</span><span>Move</span><span>Wizards</span><span>Files</span><span>Settings</span></div></div>
+
+<!-- old vs new comparison -->
+<div class="screen"><h2>4 · Icon source: old firmware 1-bit bitmaps</h2>
+<div class="box"><div class="small" style="margin-bottom:8px">Extracted from include/CNCConsts.h (50×50, MCUFRIEND 1-bit format) → PNG</div>
+<div class="icongrid" style="grid-template-columns:repeat(6,1fr)">
+ <div class="icon" style="aspect-ratio:auto;padding:12px"><img src="webui-icons/wizard-pcb.png"><b class="small">PCB</b></div>
+ <div class="icon" style="aspect-ratio:auto;padding:12px"><img src="webui-icons/wizard-flatten.png"><b class="small">Flatten</b></div>
+ <div class="icon" style="aspect-ratio:auto;padding:12px"><img src="webui-icons/wizard-simple.png"><b class="small">Simple</b></div>
+ <div class="icon" style="aspect-ratio:auto;padding:12px"><img src="webui-icons/wizard-wand.png"><b class="small">Wand</b></div>
+ <div class="icon" style="aspect-ratio:auto;padding:12px"><img src="webui-icons/probe.png"><b class="small">Probe</b></div>
+ <div class="icon" style="aspect-ratio:auto;padding:12px"><img src="webui-icons/home.png"><b class="small">Home</b></div>
+</div></div>
+<div class="nav"><span>Home</span><span>Move</span><span>Wizards</span><span>Files</span><span>Settings</span></div></div>
+
+</div>
+<script>
+const N=9;const vals=[];let vmin=1e9,vmax=-1e9;
+for(let y=0;y<N;y++){vals[y]=[];for(let x=0;x<N;x++){const v=0.12*Math.sin(x*0.55)+0.09*Math.cos(y*0.5)+0.025*(x-N/2)-0.02*(y-N/2);vals[y][x]=v;vmin=Math.min(vmin,v);vmax=Math.max(vmax,v);}}
+function color(t){t=Math.max(0,Math.min(1,t));const s=[[40,90,220],[40,190,230],[70,200,110],[240,210,60],[240,90,60]];const u=t*(s.length-1),i=Math.floor(u),f=u-i,a=s[i],b=s[Math.min(i+1,s.length-1)];return `rgb(${a[0]+(b[0]-a[0])*f|0},${a[1]+(b[1]-a[1])*f|0},${a[2]+(b[2]-a[2])*f|0})`;}
+const S=16,ox=60,oy=132,sz=130;function proj(x,y,z){return [ox+(x-(N-1)/2)*S-(y-(N-1)/2)*S*0.55, oy+((x-(N-1)/2)*S*0.32+(y-(N-1)/2)*S*0.52)-z*sz];}
+let p=[];for(let y=0;y<N-1;y++)for(let x=0;x<N-1;x++){const q=[proj(x,y,vals[y][x]),proj(x+1,y,vals[y][x+1]),proj(x+1,y+1,vals[y+1][x+1]),proj(x,y+1,vals[y+1][x])];p.push({d:x+y,q,z:(vals[y][x]+vals[y][x+1]+vals[y+1][x+1]+vals[y+1][x])/4});}
+p.sort((a,b)=>a.d-b.d);let svg='';for(const k of p){const t=(k.z-vmin)/(vmax-vmin||1);svg+=`<polygon points="${k.q.map(a=>a[0].toFixed(1)+','+a[1].toFixed(1)).join(' ')}" fill="${color(t)}" fill-opacity=".88" stroke="#0b1016" stroke-width=".6"/>`;}
+document.getElementById('mesh').innerHTML=svg;
+const mx=document.getElementById('mx');let h='';for(let y=0;y<5;y++)for(let x=0;x<5;x++){const v=vals[y*2][x*2];const cls=v>0.09?'hi':(x===0&&y<2?'p':'');const cur=(x===4&&y===0);const txt=(x===3&&y>=2||x>0&&x<4&&y>=2)?'·':(v>=0?'+':'')+v.toFixed(2);h+=`<div class="${cur?'cur ':''}${cls}">${txt}</div>`;}
+mx.innerHTML=h;
+</script></body></html>

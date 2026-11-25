@@ -1,0 +1,184 @@
+<!doctype html><html><head><meta charset="utf-8"><title>DLC32 UI v2 — design</title>
+<style>
+:root{--bg:#0f1419;--panel:#171f27;--panel2:#1e2933;--line:#2b3742;--txt:#e6edf3;--dim:#8b98a5;--acc:#4f9cf9;--ok:#3fb950;--warn:#d29922;--err:#f85149;--grn:#238636}
+*{box-sizing:border-box}body{margin:0;background:#0a0e12;color:var(--txt);font:13px/1.45 -apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding:22px;max-width:1360px;margin:0 auto}
+.screen{background:var(--bg);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.screen h2{margin:0;padding:10px 14px;background:var(--panel);border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:var(--dim)}
+.status{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--panel2);border-bottom:1px solid var(--line);font-size:11px}
+.pill{padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;background:rgba(63,185,80,.15);color:var(--ok);border:1px solid rgba(63,185,80,.4)}
+.dro{margin-left:auto;display:flex;gap:7px;font-size:11px;color:var(--dim);font-variant-numeric:tabular-nums}.dro b{color:var(--txt)}
+h3{margin:0;padding:12px 14px 4px;font-size:14px}.sub{color:var(--dim);font-size:11px;padding:0 14px 10px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;padding:0 12px 12px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:12px 10px;min-height:78px;display:flex;flex-direction:column;justify-content:space-between}
+.tile .ic{font-size:17px}.tile b{font-size:12px;display:block;margin-top:7px}.tile span{font-size:10px;color:var(--dim);display:block}
+.tile.w{grid-column:span 2;flex-direction:row;align-items:center;justify-content:space-between;min-height:auto}
+.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:0 12px 10px}
+button{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:11px;font-weight:600}
+button.p{background:var(--acc);border-color:var(--acc);color:#05203f}button.ok{background:var(--grn);border-color:var(--grn)}button.d{background:#3d1417;border-color:#5c2026;color:#ff9a9a}
+.split{height:1px;background:var(--line);margin:10px 0}
+.label{color:var(--dim);font-size:10px;text-transform:uppercase;letter-spacing:.6px;padding:0 14px 6px}
+.mover{display:flex;gap:18px;padding:0 14px 12px;align-items:flex-start}
+.jogpad{display:grid;grid-template-columns:repeat(3,50px);grid-template-rows:repeat(3,50px);gap:6px}
+.jogpad button{padding:0;font-size:18px;border-radius:10px}.jogpad .c{font-size:10px;color:var(--dim);display:flex;align-items:center;justify-content:center;background:#141c24;border:1px dashed var(--line);border-radius:10px}
+.zcol{display:flex;flex-direction:column;gap:6px;align-items:stretch;width:86px}
+.zcol button{padding:12px 0;font-size:16px}.zcol .c{font-size:10px;color:var(--dim);text-align:center;border:1px dashed var(--line);border-radius:8px;padding:6px 0;background:#141c24}
+.steps{display:flex;gap:6px;padding:0 14px 12px}.steps button{flex:1;padding:6px 0;font-size:11px}.steps .on{background:var(--acc);color:#05203f;border-color:var(--acc)}
+.sp{display:flex;gap:7px;padding:0 14px 10px;align-items:center;font-size:11px;color:var(--dim)}
+.nav{display:flex;justify-content:space-around;padding:9px 10px;background:var(--panel);border-top:1px solid var(--line);font-size:10px;color:var(--dim)}.nav .on{color:var(--acc);font-weight:700}
+.wgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;padding:0 12px 12px}
+.wtile{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:14px 10px;text-align:center}
+.wtile .ic{font-size:22px}.wtile b{display:block;font-size:12px;margin-top:6px}.wtile span{font-size:10px;color:var(--dim)}
+.flow{display:flex;gap:5px;padding:0 14px 10px;font-size:10px;color:var(--dim)}
+.flow div{flex:1;padding:5px 6px;border-radius:6px;background:var(--panel2);border:1px solid var(--line);text-align:center}
+.flow .done{border-color:rgba(63,185,80,.5);color:var(--ok)}.flow .on{border-color:var(--acc);color:var(--txt)}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin:0 12px 10px;padding:10px 12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.hmgrid{display:grid;grid-template-columns:1.15fr 1fr;gap:10px;padding:0 12px 12px}
+.surface{background:#0b1016;border:1px solid var(--line);border-radius:10px;padding:6px}
+.hm2d{display:grid;grid-template-columns:repeat(9,1fr);gap:2px}
+.hm2d div{aspect-ratio:1;border-radius:2px}
+.legend{display:flex;justify-content:space-between;font-size:9px;color:var(--dim);margin-top:5px}
+.prog{height:6px;background:#22303c;border-radius:99px;overflow:hidden}.prog i{display:block;height:100%;width:44%;background:var(--acc)}
+table{width:100%;border-collapse:collapse;font-size:11px}td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--dim);font-size:9px;text-transform:uppercase;letter-spacing:.5px}
+.small{color:var(--dim);font-size:10px}
+</style></head><body>
+<div class="wrap">
+
+<!-- 1 MAIN -->
+<div class="screen"><h2>1 · Main page (function tiles)</h2>
+<div class="status"><span class="pill">IDLE</span><span class="small">Pn XYZAS</span><span class="dro"><b>X</b>12.5 <b>Y</b>-4.2 <b>Z</b>0.0 <b>A</b>0.0</span></div>
+<h3>CNC · DLC32 MAX</h3><div class="sub">192.168.1.100 · WiFi MyWiFi · v1.1f</div>
+<div class="tiles">
+ <div class="tile"><div class="ic">✥</div><div><b>Move</b><span>Jog · home · zero</span></div></div>
+ <div class="tile"><div class="ic">✦</div><div><b>Wizards</b><span>PCB · Flat · Simple</span></div></div>
+ <div class="tile"><div class="ic">▤</div><div><b>Files</b><span>SD projects</span></div></div>
+ <div class="tile"><div class="ic">◫</div><div><b>Heightmap</b><span>Surface · 3D view</span></div></div>
+ <div class="tile"><div class="ic">≡</div><div><b>Job</b><span>progress · pause</span></div></div>
+ <div class="tile"><div class="ic">🛠</div><div><b>Tools</b><span>probe · inputs · backup</span></div></div>
+ <div class="tile"><div class="ic">⌨</div><div><b>Console</b><span>terminal · logs</span></div></div>
+ <div class="tile"><div class="ic">⚙</div><div><b>Settings</b><span>machine · WiFi · OTA</span></div></div>
+ <div class="tile w"><div><b>Active job</b><span>/relay4/top.nc · 46 % · 07:12 left</span></div><div class="row"><button>Pause</button><button class="d">Stop</button></div></div>
+</div>
+<div class="nav"><span class="on">Home</span><span>Move</span><span>Wizards</span><span>Files</span><span>Settings</span></div></div>
+
+<!-- 2 MOVE -->
+<div class="screen"><h2>2 · Move (separate XY / Z step selectors)</h2>
+<div class="status"><span class="pill">IDLE</span><span class="dro"><b>X</b>12.5 <b>Y</b>-4.2 <b>Z</b>0.0 <b>A</b>0.0</span></div>
+<h3>Move</h3><div class="sub">Manual control</div>
+<div class="actions"><button class="ok">Home</button><button>Zero XY</button><button>Zero Z</button><button class="d">Stop</button></div>
+<div class="split"></div>
+<div class="label">XY step</div>
+<div class="steps"><button>0.1</button><button class="on">1.0</button><button>10</button><button>50</button></div>
+<div class="mover">
+ <div class="jogpad"><div></div><button>↑</button><div></div><button>←</button><div class="c">1.0<br>mm ▾</div><button>→</button><div></div><button>↓</button><div></div></div>
+ <div><div class="label" style="padding:0 0 6px">Z step</div>
+  <div class="zcol"><button>Z +</button><div class="c">0.10 mm ▾</div><button>Z −</button></div></div>
+</div>
+<div class="sp"><span>Spindle</span><button>M3 ▶</button><button>M5 ■</button><input style="flex:1;background:#0b1016;border:1px solid var(--line);color:var(--txt);border-radius:7px;padding:6px" value="1000 rpm"></div>
+<div class="sp"><span>Coolant</span><button>Flood</button><button>Mist</button><button>Off</button></div>
+<div class="nav"><span>Home</span><span class="on">Move</span><span>Wizards</span><span>Files</span><span>Settings</span></div></div>
+
+<!-- 3 WIZARDS -->
+<div class="screen"><h2>3 · Wizards (icon grid → steps)</h2>
+<div class="status"><span class="pill">IDLE</span><span class="small">no job</span></div>
+<h3>Wizards</h3><div class="sub">Same flows as the old touchscreen</div>
+<div class="wgrid">
+ <div class="wtile"><div class="ic">▣</div><b>PCB</b><span>top · bottom · drills · profile</span></div>
+ <div class="wtile"><div class="ic">▤</div><b>Flatten</b><span>surface the bed</span></div>
+ <div class="wtile"><div class="ic">▧</div><b>Simple job</b><span>any .nc file</span></div>
+</div>
+<div class="box"><div class="small" style="margin-bottom:7px">PCB wizard — steps</div>
+ <div class="flow"><div class="done">1 Project</div><div>2 Setup</div><div>3 Flatten</div><div>4 Heightmap</div><div>5 Run</div></div>
+ <div class="row"><button>Select on SD</button><button>Upload folder</button><button class="p">Continue</button></div>
+</div>
+<div class="box"><div class="small">Project · /relay4</div>
+ <table><tr><th>File</th><th>Size</th><th></th></tr><tr><td>top.nc</td><td>86 KB</td><td>✓</td></tr><tr><td>bottom.nc</td><td>82 KB</td><td>✓</td></tr><tr><td>drills.nc</td><td>6 KB</td><td>✓</td></tr><tr><td>profile.nc</td><td>2 KB</td><td>✓</td></tr></table></div>
+<div class="nav"><span>Home</span><span>Move</span><span class="on">Wizards</span><span>Files</span><span>Settings</span></div></div>
+
+<!-- 4 HEIGHTMAP -->
+<div class="screen"><h2>4 · Heightmap (Klipper-style surface + grid)</h2>
+<div class="status"><span class="pill">IDLE</span><span class="small">map ready · 0.30 mm delta</span></div>
+<h3>Heightmap</h3><div class="sub">Probed 25/25 · span 60 mm · grid 5×5</div>
+<div class="hmgrid">
+ <div>
+  <div class="surface"><svg id="mesh" width="100%" viewBox="0 0 330 210"></svg>
+   <div class="legend"><span>−0.18 mm</span><span>0.00</span><span>+0.12 mm</span></div>
+  </div>
+  <div class="row" style="margin-top:8px"><button class="on">3D</button><button>2D</button><button>Reset view</button></div>
+ </div>
+ <div>
+  <div class="hm2d" id="hm2d"></div>
+  <div class="small" style="margin-top:8px">Z −0.18 … +0.12 mm · delta 0.30 mm</div>
+  <div class="small">Probe feed 50 mm/min · retract 2 mm</div>
+  <div class="row" style="margin-top:10px"><button class="ok">Probe</button><button>Clear</button><button>Export CSV</button></div>
+  <div class="small" style="margin-top:8px">Reuse: saved for this project · wizards pick it up automatically</div>
+ </div>
+</div>
+<div class="nav"><span>Home</span><span>Move</span><span>Wizards</span><span>Files</span><span>Settings</span></div></div>
+
+<!-- 5 SETTINGS -->
+<div class="screen"><h2>5 · Settings (incl. Firmware &amp; About)</h2>
+<div class="status"><span class="pill">IDLE</span><span class="small">192.168.1.100</span></div>
+<h3>Settings</h3><div class="sub">Machine · network · security · firmware</div>
+<table>
+ <tr><th>Group</th><th>Summary</th><th></th></tr>
+ <tr><td>Machine</td><td>steps/mm · rate · accel · travel · invert</td><td><button>Open</button></td></tr>
+ <tr><td>Probe &amp; heightmap</td><td>grid 5×5 · 60 mm · feed 50</td><td><button>Open</button></td></tr>
+ <tr><td>Spindle &amp; coolant</td><td>PWM max · delays</td><td><button>Open</button></td></tr>
+ <tr><td>WiFi &amp; network</td><td>STA MyWiFi · AP fallback · IPs</td><td><button>Open</button></td></tr>
+ <tr><td>Security</td><td>UI password · OTA password</td><td><button>Open</button></td></tr>
+ <tr><td>Backup / restore</td><td>export/import settings · factory reset</td><td><button>Open</button></td></tr>
+ <tr><td><b>Firmware &amp; About</b></td><td>slot ota_0 · v1.1f · commit 62cf39e · rollback on</td><td><button>Open</button></td></tr>
+</table>
+<div class="box" style="margin-top:10px"><div class="small" style="margin-bottom:6px">Firmware update (from Settings → Firmware)</div>
+ <div class="row"><input type="file" style="color:var(--dim);font-size:11px"><button class="p">Upload .bin</button><button>Check status</button></div>
+ <div class="small" style="margin-top:6px">Validated · ESP32-S3 · project grbl · A/B rollback</div></div>
+<div class="nav"><span>Home</span><span>Move</span><span>Wizards</span><span>Files</span><span class="on">Settings</span></div></div>
+
+</div>
+<script>
+// ---- Klipper-style bed mesh: isometric surface with color by Z ----
+const N=9, cvs=document.getElementById('mesh');
+const vals=[]; let vmin=1e9,vmax=-1e9;
+for(let y=0;y<N;y++){vals[y]=[];for(let x=0;x<N;x++){
+  const v=0.12*Math.sin(x*0.55)+0.09*Math.cos(y*0.5)+0.025*(x-N/2)-0.02*(y-N/2) + ((x*7+y*13)%5)*0.008;
+  vals[y][x]=v; vmin=Math.min(vmin,v); vmax=Math.max(vmax,v);}}
+function color(t){ // blue -> cyan -> green -> yellow -> red
+  t=Math.max(0,Math.min(1,t));
+  const stops=[[40,90,220],[40,190,230],[70,200,110],[240,210,60],[240,90,60]];
+  const s=t*(stops.length-1), i=Math.floor(s), f=s-i;
+  const a=stops[i], b=stops[Math.min(i+1,stops.length-1)];
+  return `rgb(${a[0]+(b[0]-a[0])*f|0},${a[1]+(b[1]-a[1])*f|0},${a[2]+(b[2]-a[2])*f|0})`;
+}
+const S=18, ox=70, oy=150, sy=0.52, sz=150;
+function proj(x,y,z){ const px=ox + (x-(N-1)/2)*S*1.0 - (y-(N-1)/2)*S*0.55;
+  const py=oy + ((x-(N-1)/2)*S*0.32 + (y-(N-1)/2)*S*sy) - z*sz; return [px,py]; }
+let polys=[];
+for(let y=0;y<N-1;y++)for(let x=0;x<N-1;x++){
+  const z0=vals[y][x], z1=vals[y][x+1], z2=vals[y+1][x+1], z3=vals[y+1][x];
+  const q=[proj(x,y,z0),proj(x+1,y,z1),proj(x+1,y+1,z2),proj(x,y+1,z3)];
+  const depth=(x+y);
+  polys.push({depth,q,z:(z0+z1+z2+z3)/4});
+}
+polys.sort((a,b)=>a.depth-b.depth);
+let svg='';
+for(const p of polys){
+  const t=(p.z-vmin)/(vmax-vmin||1);
+  const pts=p.q.map(a=>a[0].toFixed(1)+','+a[1].toFixed(1)).join(' ');
+  svg+=`<polygon points="${pts}" fill="${color(t)}" fill-opacity="0.88" stroke="#0b1016" stroke-width="0.6"/>`;
+}
+// axes
+svg+=`<text x="${ox-46}" y="${oy+18}" fill="#8b98a5" font-size="9">Y</text>`;
+svg+=`<text x="${ox-4}" y="${oy+52}" fill="#8b98a5" font-size="9">X</text>`;
+cvs.innerHTML=svg;
+// ---- 2D heatmap ----
+const hm=document.getElementById('hm2d');
+let h2='';
+for(let y=0;y<N;y++)for(let x=0;x<N;x++){
+  const v=vals[y][x], t=(v-vmin)/(vmax-vmin||1);
+  h2+=`<div title="${v.toFixed(3)} mm" style="background:${color(t)}"></div>`;
+}
+hm.innerHTML=h2;
+</script>
+</body></html>

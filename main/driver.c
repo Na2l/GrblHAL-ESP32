@@ -34,6 +34,9 @@
 #include <sys/time.h>
 
 #include "./driver.h"
+#include "heightmap.h"
+#include "ota.h"
+#include "ui.h"
 #include "uart_serial.h"
 #include "timers.h"
 #include "nvs.h"
@@ -3836,6 +3839,18 @@ bool driver_init (void)
 #endif
 
 #include "grbl/plugins_init.h"
+
+#if HEIGHTMAP_ENABLE
+    heightmap_plugin_init();
+#endif
+
+#if OTA_ENABLE
+    ota_init();
+#endif
+
+#if UI_ENABLE
+    ui_init();
+#endif
 
 #if MPG_ENABLE == 1
     if(!hal.driver_cap.mpg_mode)
