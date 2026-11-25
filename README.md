@@ -1,5 +1,7 @@
 # DLC32 MAX / 3018-Pro branch
 
+![3018-PRO](docs/logo/banner-800.png)
+
 This branch is **`3018-pro`** of [github.com/Na2l/GrblHAL-ESP32](https://github.com/Na2l/GrblHAL-ESP32),
 a fork of the upstream **ESP32 grblHAL driver**:
 

@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+ <rect width="1024" height="1024" fill="#0a0f17"/>
+ <g transform="translate(102,102) scale(0.8)">
+ <defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#121b2b"/><stop offset="0.55" stop-color="#0c131e"/><stop offset="1" stop-color="#070b12"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="50%" cy="46%" r="62%">
+    <stop offset="0" stop-color="#3f8fe8" stop-opacity="0.55"/>
+    <stop offset="0.5" stop-color="#2f6fd0" stop-opacity="0.18"/>
+    <stop offset="1" stop-color="#2f6fd0" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="ax" x1="0" y1="0" x2="0.6" y2="1">
+    <stop offset="0" stop-color="#9fd4ff"/><stop offset="0.45" stop-color="#5aa4f0"/><stop offset="1" stop-color="#2d63b8"/>
+  </linearGradient>
+  <linearGradient id="ax2" x1="1" y1="0" x2="0.4" y2="1">
+    <stop offset="0" stop-color="#8ccbff"/><stop offset="1" stop-color="#2f6fd0"/>
+  </linearGradient>
+  <linearGradient id="bit" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#ffffff"/><stop offset="0.55" stop-color="#dcefff"/><stop offset="1" stop-color="#8fc3ff"/>
+  </linearGradient>
+  <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#33445c"/><stop offset="1" stop-color="#18222f"/>
+  </linearGradient>
+  <filter id="soft" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="26"/>
+  </filter>
+  <filter id="tipglow" x="-120%" y="-120%" width="340%" height="340%">
+    <feGaussianBlur stdDeviation="14"/>
+  </filter>
+ </defs>
+
+ <!-- tile -->
+ <rect width="1024" height="1024" rx="224" fill="url(#bg)"/>
+ <rect x="9" y="9" width="1006" height="1006" rx="216" fill="none" stroke="url(#ring)" stroke-width="7"/>
+ <circle cx="512" cy="470" r="380" fill="url(#glow)"/>
+
+ <!-- pcb traces -->
+ <g stroke="#2f5b8f" stroke-opacity="0.45" stroke-width="10" fill="none" stroke-linecap="round">
+  <path d="M96 862 H 236 V 742"/>
+  <path d="M928 862 H 788 V 742"/>
+  <path d="M96 226 H 206"/>
+  <path d="M928 226 H 818"/>
+ </g>
+ <g fill="#3f8fe8" fill-opacity="0.85">
+  <circle cx="236" cy="742" r="13"/><circle cx="788" cy="742" r="13"/>
+  <circle cx="206" cy="226" r="11"/><circle cx="818" cy="226" r="11"/>
+ </g>
+
+ <!-- isometric axis trihedron -->
+ <g stroke-linecap="round" fill="none">
+  <path d="M512 606 V 336 M512 606 L 764 752 M512 606 L 260 752"
+        stroke="#0a1420" stroke-opacity="0.9" stroke-width="86" transform="translate(12,18)"/>
+  <path d="M512 606 V 336" stroke="url(#ax)" stroke-width="72"/>
+  <path d="M512 606 L 764 752" stroke="url(#ax)" stroke-width="72"/>
+  <path d="M512 606 L 260 752" stroke="url(#ax2)" stroke-width="72"/>
+ </g>
+ <!-- axis arrow caps -->
+ <g fill="url(#ax)">
+  <path d="M512 300 l 34 62 h -68 z"/>
+ </g>
+ <g fill="url(#ax2)">
+  <path d="M790 764 l -70 20 30 -64 z"/>
+  <path d="M234 764 l 70 20 -30 -64 z"/>
+ </g>
+
+ <!-- spindle + V-bit at the origin -->
+ <circle cx="512" cy="640" r="80" fill="#7cc4ff" fill-opacity="0.35" filter="url(#soft)"/>
+ <rect x="466" y="404" width="92" height="104" rx="18" fill="#cfe6ff"/>
+ <rect x="466" y="404" width="92" height="104" rx="18" fill="none" stroke="#8fc3ff" stroke-width="3"/>
+ <rect x="486" y="418" width="52" height="14" rx="7" fill="#8fb8e0"/>
+ <path d="M466 508 H558 L524 576 L512 606 L500 576 Z" fill="url(#bit)"/>
+ <path d="M512 606 L524 576 H558 Z" fill="#b9dcff" fill-opacity="0.55"/>
+ <circle cx="512" cy="612" r="16" fill="#ffffff" filter="url(#tipglow)" opacity="0.9"/>
+
+ <!-- origin pad -->
+ <circle cx="512" cy="606" r="56" fill="none" stroke="#4f8fd8" stroke-opacity="0.5" stroke-width="4"/>
+
+ <!-- spec dots -->
+ <g fill="#7cc4ff" fill-opacity="0.35">
+  <circle cx="132" cy="512" r="5"/><circle cx="892" cy="512" r="5"/>
+  <circle cx="512" cy="132" r="5"/><circle cx="512" cy="892" r="5"/>
+ </g>
+</g>
+</svg>
