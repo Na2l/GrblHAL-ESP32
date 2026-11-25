@@ -144,8 +144,6 @@ Configuration of options in _my_machine.h_ is turned off in _CMakeLists.txt_ by 
 
 ### Credits:
 
-index.htm.gz is Copyright (c) 2019 Luc Lebosse - from his [ESP3D-WEBUI](https://github.com/luc-github/ESP3D-webui), I may have pulled a few lines from his backend code too.
-
 dns_server.c is Copyright (c) 2019 Tony Pottier - from his [ESP32 WiFi Manager](https://github.com/tonyp7/esp32-wifi-manager) 
 
 Snippets of code is extracted from Espressif ESP-IDF examples which are public domain.
